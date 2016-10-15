@@ -14,23 +14,23 @@ public class Metadata {
     @JsonProperty("requestType")
     private DataSetType requestType;
 
-    @JsonProperty("chartConfig")
-    private ChartConfig chartConfig;
+    @JsonProperty("displayElementConfig")
+    private DisplayElementConfig displayElementConfig;
 
 
-    public Metadata(ChartConfig chartConfig, boolean changesMade, Integer dataSize, DataSetType requestType) {
-        this.chartConfig = chartConfig;
+    public Metadata(DisplayElementConfig displayElementConfig, boolean changesMade, Integer dataSize, DataSetType requestType) {
+        this.displayElementConfig = displayElementConfig;
         this.changesMadeSinceLastUpdate = changesMade;
         this.dataSize = dataSize;
         this.requestType = requestType;
     }
 
-    public ChartConfig getChartConfig() {
-        return chartConfig;
+    public DisplayElementConfig getDisplayElementConfig() {
+        return displayElementConfig;
     }
 
-    public void setChartConfig(ChartConfig chartType) {
-        this.chartConfig = chartType;
+    public void setDisplayElementConfig(DisplayElementConfig chartType) {
+        this.displayElementConfig = chartType;
     }
 
     public boolean isChangesMadeSinceLastUpdate() {

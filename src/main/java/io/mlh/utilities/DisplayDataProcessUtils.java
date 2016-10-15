@@ -22,7 +22,7 @@ public class DisplayDataProcessUtils {
     public Object process(Object data, Metadata metadata) {
         Object result;
 
-        switch(metadata.getChartConfig().getType()) {
+        switch(metadata.getDisplayElementConfig().getType()) {
             case "pie_chart":
                 result = processPieChart(data, metadata);
                 break;
@@ -34,7 +34,7 @@ public class DisplayDataProcessUtils {
     private Object processPieChart(Object data, Metadata metadata) {
         Object result = data;
 
-        if (metadata.getChartConfig().getGroupedBy() != null) {
+        if (metadata.getDisplayElementConfig().getGroupedBy() != null) {
             result = groupBy((Collection) result);
         }
 

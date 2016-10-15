@@ -1,7 +1,7 @@
 package io.mlh.controllers;
 
 import io.mlh.objects.Metadata;
-import io.mlh.objects.charts.PieChartConfig;
+import io.mlh.objects.charts.PieDisplayElementConfig;
 import io.mlh.services.CapitalOneService;
 import io.mlh.services.SystemStateService;
 import io.mlh.types.DataSetType;
@@ -24,7 +24,7 @@ public class ViewerController {
         logger.debug("Initializing " + this.getClass() + "!");
         this.ssService = ssService;
         ssService.setDisplayData(coService.getAllAccounts());
-        ssService.setDisplayMetadata(new Metadata(new PieChartConfig("type"), true, coService.getAllAccounts().size(), DataSetType.ACCOUNT));
+        ssService.setDisplayMetadata(new Metadata(new PieDisplayElementConfig("type"), true, coService.getAllAccounts().size(), DataSetType.ACCOUNT));
     }
 
     @RequestMapping("/metadata")

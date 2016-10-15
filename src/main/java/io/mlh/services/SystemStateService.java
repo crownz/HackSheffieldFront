@@ -17,7 +17,7 @@ public class SystemStateService {
     }
 
     public Object getDisplayData() {
-        return new DisplayDataProcessUtils(displayMetadata.getChartConfig().getGroupedBy()).process(displayData, displayMetadata);
+        return new DisplayDataProcessUtils(displayMetadata.getDisplayElementConfig().getGroupedBy()).process(displayData, displayMetadata);
     }
 
     public void setDisplayData(Collection displayData) {

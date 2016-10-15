@@ -1,12 +1,12 @@
 package io.mlh.objects.charts;
 
-import io.mlh.objects.ChartConfig;
+import io.mlh.objects.DisplayElementConfig;
 
-public class PieChartConfig implements ChartConfig {
+public class PieDisplayElementConfig implements DisplayElementConfig {
 
     private final String groupedBy;
 
-    public PieChartConfig(String groupedBy) {
+    public PieDisplayElementConfig(String groupedBy) {
         this.groupedBy = groupedBy;
     }
 

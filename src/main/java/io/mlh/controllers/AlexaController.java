@@ -17,8 +17,12 @@ public class AlexaController {
     }
 
     @RequestMapping("/setMode")
-    public void setNewMode(@RequestParam String displayMode) {
+    public void setNewMode(
+            @RequestParam String displayElementType,
+            @RequestParam String requestType) {
         logger.error("Called alexa setMode!");
+        logger.error("display element type " + displayElementType);
+        logger.error("request type" + requestType);
     }
 
     //Request type
