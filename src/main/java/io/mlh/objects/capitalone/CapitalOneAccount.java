@@ -1,4 +1,4 @@
-package io.mlh.objects;
+package io.mlh.objects.capitalone;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

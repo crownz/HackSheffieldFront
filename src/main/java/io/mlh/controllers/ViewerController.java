@@ -1,6 +1,7 @@
 package io.mlh.controllers;
 
-import io.mlh.objects.DisplayMetadata;
+import io.mlh.objects.Metadata;
+import io.mlh.objects.charts.PieChartConfig;
 import io.mlh.services.CapitalOneService;
 import io.mlh.services.SystemStateService;
 import io.mlh.types.DataSetType;
@@ -23,16 +24,16 @@ public class ViewerController {
         logger.debug("Initializing " + this.getClass() + "!");
         this.ssService = ssService;
         ssService.setDisplayData(coService.getAllAccounts());
-        ssService.setDisplayMetadata(new DisplayMetadata("chart", true, coService.getAllAccounts().size(), DataSetType.ACCOUNT, "/accounts"));
+        ssService.setDisplayMetadata(new Metadata(new PieChartConfig("type"), true, coService.getAllAccounts().size(), DataSetType.ACCOUNT));
     }
 
     @RequestMapping("/metadata")
-    public DisplayMetadata getMetadata() {
+    public Metadata getMetadata() {
         return ssService.getDisplayMetadata();
     }
 
     @RequestMapping("/data")
-    public Iterable getData() {
+    public Object getData() {
         return ssService.getDisplayData();
     }
 

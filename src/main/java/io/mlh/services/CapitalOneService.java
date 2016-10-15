@@ -2,7 +2,7 @@ package io.mlh.services;
 
 import com.mashape.unirest.http.JsonNode;
 import io.mlh.mappers.AccountMapper;
-import io.mlh.objects.CapitalOneAccount;
+import io.mlh.objects.capitalone.CapitalOneAccount;
 import io.mlh.utilities.CapitalOneEndpointBuilder;
 import io.mlh.utilities.HttpRequests;
 import org.apache.log4j.LogManager;

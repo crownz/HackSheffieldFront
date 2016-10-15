@@ -17,4 +17,8 @@ public class AlexaController {
 
     }
 
+    //Request type
+    //Display mode - chart / table
+        //If chart - pie or bar
+            //Pie chart - grouped by field name
 }

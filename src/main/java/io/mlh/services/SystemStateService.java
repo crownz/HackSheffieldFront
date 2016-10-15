@@ -1,31 +1,34 @@
 package io.mlh.services;
 
-import io.mlh.objects.DisplayMetadata;
+import io.mlh.objects.Metadata;
+import io.mlh.utilities.DisplayDataProcessUtils;
 import org.springframework.stereotype.Service;
+
+import java.util.Collection;
 
 @Service
 public class SystemStateService {
 
-    private Iterable displayData;
+    private Object displayData;
 
-    private DisplayMetadata displayMetadata;
+    private Metadata displayMetadata;
 
     public SystemStateService() {
     }
 
-    public Iterable getDisplayData() {
-        return displayData;
+    public Object getDisplayData() {
+        return new DisplayDataProcessUtils(displayMetadata.getChartConfig().getGroupedBy()).process(displayData, displayMetadata);
     }
 
-    public void setDisplayData(Iterable displayData) {
+    public void setDisplayData(Collection displayData) {
         this.displayData = displayData;
     }
 
-    public DisplayMetadata getDisplayMetadata() {
+    public Metadata getDisplayMetadata() {
         return displayMetadata;
     }
 
-    public void setDisplayMetadata(DisplayMetadata displayMetadata) {
+    public void setDisplayMetadata(Metadata displayMetadata) {
         this.displayMetadata = displayMetadata;
     }
 }
