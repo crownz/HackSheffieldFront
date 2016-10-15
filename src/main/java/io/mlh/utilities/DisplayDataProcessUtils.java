@@ -15,11 +15,13 @@ public class DisplayDataProcessUtils {
     private String getMethodName;
 
     public DisplayDataProcessUtils(String groupingKey) {
-        if(groupingKey == null) throw new IllegalArgumentException("Invalid grouping key!");
+        if (groupingKey == null) groupingKey = "type";
         this.getMethodName = "get" + groupingKey.substring(0, 1).toUpperCase() + groupingKey.substring(1, groupingKey.length());
     }
 
     public Object process(Object data, Metadata metadata) {
+        if (data == null) return null;
+
         Object result;
 
         switch(metadata.getDisplayElementConfig().getType()) {

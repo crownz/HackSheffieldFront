@@ -14,6 +14,8 @@ public class SystemStateService {
     private Metadata displayMetadata;
 
     public SystemStateService() {
+        this.displayMetadata = null;
+        this.displayData = null;
     }
 
     public Object getDisplayData() {

@@ -23,8 +23,8 @@ public class ViewerController {
     public ViewerController(CapitalOneService coService, SystemStateService ssService) {
         logger.debug("Initializing " + this.getClass() + "!");
         this.ssService = ssService;
-        ssService.setDisplayData(coService.getAllAccounts());
-        ssService.setDisplayMetadata(new Metadata(new PieChartDisplayElementConfig("type"), true, coService.getAllAccounts().size(), DataSetType.ACCOUNT));
+        //ssService.setDisplayData(coService.getAllAccounts());
+        //ssService.setDisplayMetadata(new Metadata(new PieChartDisplayElementConfig("type"), true, coService.getAllAccounts().size(), DataSetType.ACCOUNT));
     }
 
     @RequestMapping("/metadata")
