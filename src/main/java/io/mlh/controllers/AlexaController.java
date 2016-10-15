@@ -1,6 +1,9 @@
 package io.mlh.controllers;
 
+import com.sun.javaws.exceptions.InvalidArgumentException;
+import io.mlh.objects.DisplayElementConfig;
 import io.mlh.objects.Metadata;
+import io.mlh.objects.charts.BarChartDisplayElementConfig;
 import io.mlh.objects.charts.PieChartDisplayElementConfig;
 import io.mlh.services.CapitalOneService;
 import io.mlh.services.SystemStateService;
@@ -40,7 +43,23 @@ public class AlexaController {
         logger.error("request type" + requestType);
 
         List lAcc = coService.getAllAccounts();
+
+
+        DisplayElementConfig config;
+
+        if(displayElementType.contains("bar")) {
+            config = new BarChartDisplayElementConfig(groupedBy);
+        } else if (displayElementType.contains("pie")) {
+            config = new PieChartDisplayElementConfig(groupedBy);
+        } else if (displayElementType.contains("table")) {
+            //Change to table config.
+            config = new PieChartDisplayElementConfig(groupedBy);
+        } else {
+            throw new IllegalArgumentException("Invalid displayElementType provided. Only pie,bar charts and table supported");
+        }
+
+        ssService.setDisplayMetadata(new Metadata(config, true, lAcc.size(), DataSetType.valueOf(requestType.toUpperCase())));
         ssService.setDisplayData(lAcc);
-        ssService.setDisplayMetadata(new Metadata(new PieChartDisplayElementConfig(groupedBy), true, lAcc.size(), DataSetType.valueOf(requestType.toUpperCase())));
+
     }
 }
