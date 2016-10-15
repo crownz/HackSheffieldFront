@@ -13,9 +13,12 @@ public class SystemStateService {
 
     private Metadata displayMetadata;
 
+    private boolean sessionStarted;
+
     public SystemStateService() {
         this.displayMetadata = null;
         this.displayData = null;
+        this.sessionStarted = false;
     }
 
     public Object getDisplayData() {
@@ -35,5 +38,19 @@ public class SystemStateService {
     public void setDisplayMetadata(Metadata displayMetadata) {
         System.out.println("Setting display metadata!");
         this.displayMetadata = displayMetadata;
+    }
+
+    public boolean isSessionStarted() {
+        return sessionStarted;
+    }
+
+    public void setSessionStarted(boolean sessionStarted) {
+        this.sessionStarted = sessionStarted;
+    }
+
+    public void reset() {
+        displayData = null;
+        displayMetadata = null;
+        sessionStarted = false;
     }
 }

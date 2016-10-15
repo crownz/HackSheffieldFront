@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api")
 public class ViewerController {
@@ -38,4 +41,10 @@ public class ViewerController {
         return ssService.getDisplayData();
     }
 
+    @RequestMapping("/session")
+    public Map hasBeenTouched() {
+        Map<String, Boolean> result = new HashMap<>();
+        result.put("hasBeenTouched", ssService.isSessionStarted());
+        return result;
+    }
 }

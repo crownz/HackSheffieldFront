@@ -17,12 +17,15 @@ public class Metadata {
     @JsonProperty("displayElementConfig")
     private DisplayElementConfig displayElementConfig;
 
+    @JsonProperty("shouldStopPolling")
+    private boolean shouldStopPolling;
 
-    public Metadata(DisplayElementConfig displayElementConfig, boolean changesMade, Integer dataSize, DataSetType requestType) {
+    public Metadata(DisplayElementConfig displayElementConfig, boolean changesMade, Integer dataSize, DataSetType requestType, boolean shouldStopPolling) {
         this.displayElementConfig = displayElementConfig;
         this.changesMadeSinceLastUpdate = changesMade;
         this.dataSize = dataSize;
         this.requestType = requestType;
+        this.shouldStopPolling = shouldStopPolling;
     }
 
     public DisplayElementConfig getDisplayElementConfig() {
@@ -55,5 +58,13 @@ public class Metadata {
 
     public void setRequestType(DataSetType requestType) {
         this.requestType = requestType;
+    }
+
+    public boolean shouldStopPolling() {
+        return shouldStopPolling;
+    }
+
+    public void setShouldStopPolling(boolean shouldStopPolling) {
+        this.shouldStopPolling = shouldStopPolling;
     }
 }

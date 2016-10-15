@@ -52,6 +52,23 @@ public class AlexaController {
 
 
         ssService.setDisplayData(lAcc);
-        ssService.setDisplayMetadata(new Metadata(config, true, lAcc.size(), DataSetType.valueOf(requestType.toUpperCase())));
+        ssService.setDisplayMetadata(new Metadata(config, true, lAcc.size(), DataSetType.valueOf(requestType.toUpperCase()), false));
+    }
+
+    @RequestMapping("/stop")
+    public void stop() {
+        Metadata md = ssService.getDisplayMetadata();
+        md.setShouldStopPolling(true);
+        ssService.setDisplayMetadata(md);
+    }
+
+    @RequestMapping("/reset")
+    public void reset() {
+        ssService.reset();
+    }
+
+    @RequestMapping("/touch")
+    public void touch() {
+        ssService.setSessionStarted(true);
     }
 }
