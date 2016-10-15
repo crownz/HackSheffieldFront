@@ -19,6 +19,7 @@ public class SystemStateService {
     }
 
     public Object getDisplayData() {
+        if (this.displayData == null) return null;
         return new DisplayDataProcessUtils(displayMetadata.getDisplayElementConfig().getGroupedBy()).process(displayData, displayMetadata);
     }
 
