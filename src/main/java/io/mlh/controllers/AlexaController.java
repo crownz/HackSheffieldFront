@@ -33,7 +33,7 @@ public class AlexaController {
     public void setNewMode(
             @RequestParam String displayElementType,
             @RequestParam String requestType,
-            @RequestParam String groupedBy) {
+            @RequestParam(required=false) String groupedBy) {
 
         logger.error("Called alexa setMode!");
         logger.error("display element type " + displayElementType);
