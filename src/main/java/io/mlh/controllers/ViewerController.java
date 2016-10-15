@@ -1,10 +1,8 @@
 package io.mlh.controllers;
 
 import io.mlh.objects.Metadata;
-import io.mlh.objects.charts.PieChartDisplayElementConfig;
 import io.mlh.services.CapitalOneService;
 import io.mlh.services.SystemStateService;
-import io.mlh.types.DataSetType;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +21,6 @@ public class ViewerController {
     public ViewerController(CapitalOneService coService, SystemStateService ssService) {
         logger.debug("Initializing " + this.getClass() + "!");
         this.ssService = ssService;
-        //ssService.setDisplayData(coService.getAllAccounts());
-        //ssService.setDisplayMetadata(new Metadata(new PieChartDisplayElementConfig("type"), true, coService.getAllAccounts().size(), DataSetType.ACCOUNT));
     }
 
     @RequestMapping("/metadata")

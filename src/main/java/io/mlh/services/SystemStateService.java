@@ -27,10 +27,12 @@ public class SystemStateService {
     }
 
     public Metadata getDisplayMetadata() {
+        System.out.println("Getting display metadata!");
         return displayMetadata;
     }
 
     public void setDisplayMetadata(Metadata displayMetadata) {
+        System.out.println("Setting display metadata!");
         this.displayMetadata = displayMetadata;
     }
 }
