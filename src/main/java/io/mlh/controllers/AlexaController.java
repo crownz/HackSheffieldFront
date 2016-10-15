@@ -41,6 +41,6 @@ public class AlexaController {
 
         List lAcc = coService.getAllAccounts();
         ssService.setDisplayData(lAcc);
-        ssService.setDisplayMetadata(new Metadata(new PieChartDisplayElementConfig(groupedBy), true, lAcc.size(), DataSetType.valueOf(requestType)));
+        ssService.setDisplayMetadata(new Metadata(new PieChartDisplayElementConfig(groupedBy), true, lAcc.size(), DataSetType.valueOf(requestType.toUpperCase())));
     }
 }
