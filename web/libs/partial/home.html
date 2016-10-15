@@ -1,9 +1,34 @@
 <div class="home-container" layout="row" layout-align="center center">
-	<div flex></div>
-	<div class="content-container">
-		<bar-chart is-large="true"></bar-chart>
 
+
+	<div flex="70" flex-offset="5" class="content-container">
+
+		<div class="start-container" ng-if="notStarted" layout="row" layout-align="start center" style="width: 100%; height: 100%;" ng-class="{ 'app-started' : starting }">
+			<md-icon class="bg-icon">insert_chart</md-icon>
+			<div class="welcome-text" >
+			Say Hello Alexa to show data
+			</div>
+		</div>
+
+		<div ng-if="displayChart && !displayTable" layout="row" layout-align="start center" style="width: 100%; height: 100%;">
+			<bar-chart is-large="true" ng-if="chartType === 'bar'"></bar-chart>
+			<pie-chart is-large="true" ng-if="chartType === 'pie'"></pie-chart>
+		</div>
+
+		<div ng-if="displayChart && displayTable" layout="row" layout-align="start center" style="width: 100%; height: 100%;">
+			<bar-chart flex="50" is-large="false" ng-if="chartType === 'bar'"></bar-chart>
+
+			<pie-chart flex="50" is-large="false" ng-if="chartType === 'pie'"></pie-chart>
+		</div>
+
+		<div ng-if="!displayChart && displayTable" layout="row" layout-align="start center" style="width: 100%; height: 100%;">
+
+		</div>
 	</div>
-	<div flex></div>
+	<div flex class="boxes-container" layout="column">
+		<div class="box1"></div>
+		<div class="box2"></div>
+		<div class="box3"></div>
+	</div>
 
 </div>

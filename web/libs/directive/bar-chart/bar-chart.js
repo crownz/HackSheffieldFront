@@ -4,7 +4,7 @@ angular.module('HackSheffield').directive('barChart', function(d3Service,
         restrict: 'E',
         replace: true,
         scope: {
-            isLarge: '@'
+            isLarge: '='
         },
         templateUrl: 'libs/directive/bar-chart/bar-chart.html',
         link: function(scope, element, attrs, fn) {
@@ -23,6 +23,8 @@ angular.module('HackSheffield').directive('barChart', function(d3Service,
                 }
             ];
 
+            console.log("Starting d3 chart, height ", $(document).innerHeight());
+
 
             var d3 = d3Service;
 
@@ -31,10 +33,12 @@ angular.module('HackSheffield').directive('barChart', function(d3Service,
             var width, height;
 
             if (scope.isLarge) {
-                width = $(document).width()/100*70 - margin.left - margin.right;
-                height = $(document).height()/100*80 - margin.top - margin.bottom;
+                width = $(document).width() * 0.6 - margin.left - margin.right;
+                height = $(document).height() * 0.8 - margin.top - margin.bottom;
             } else {
-
+                console.log("smallll");
+                width = $(document).width() * 0.35 - margin.left - margin.right;
+                height = $(document).height() * 0.4 - margin.top - margin.bottom;
             }
             
 

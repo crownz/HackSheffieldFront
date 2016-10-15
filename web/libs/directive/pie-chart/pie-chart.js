@@ -4,7 +4,7 @@ angular.module('HackSheffield').directive('pieChart', function(d3Service,
         restrict: 'E',
         replace: true,
         scope: {
-
+            isLarge: '='
         },
         templateUrl: 'libs/directive/pie-chart/pie-chart.html',
         link: function(scope, element, attrs, fn) {
@@ -25,10 +25,24 @@ angular.module('HackSheffield').directive('pieChart', function(d3Service,
                     value: 3711
                 }
             ];
+
+            var width, height;
+
+            if (scope.isLarge) {
+                height = $(document).height() * 0.8;
+            } else {
+                var one =  $(document).width() * 0.7 / 2;
+                var two = $(document).height() * 0.8;
+                if (one < two) {
+                    height = one;
+                } else {
+                    height = two;
+                }
+            }
+
+            width = height;
             
-            var width = 400,
-            height = 400,
-            radius = Math.min(width, height) / 2;
+            var radius = Math.min(width, height) / 2;
 
             var color = d3.scaleOrdinal(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
 
