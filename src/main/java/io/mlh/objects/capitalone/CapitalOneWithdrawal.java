@@ -15,8 +15,8 @@ public class CapitalOneWithdrawal {
     @JsonProperty("amount")
     private Double amount;
 
-    @JsonSerialize( using = CapitalOneDescriptionSerializer.class, as = List.class )
-    private List<String> description;
+    @JsonProperty("description")
+    private Object description;
 
     @JsonProperty("medium")
     private String medium;
@@ -49,11 +49,11 @@ public class CapitalOneWithdrawal {
         this.amount = amount;
     }
 
-    public List<String> getDescription() {
+    public Object getDescription() {
         return description;
     }
 
-    public void setDescription(List<String> description) {
+    public void setDescription(Object description) {
         this.description = description;
     }
 
