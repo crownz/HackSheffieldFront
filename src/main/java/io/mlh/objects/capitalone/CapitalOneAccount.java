@@ -1,10 +1,10 @@
-package io.mlh.objects;
+package io.mlh.objects.capitalone;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.math.BigInteger;
 
-public class CapitalOneAccount {
+public class CapitalOneAccount  {
 
     @JsonProperty("_id")
     private String id;

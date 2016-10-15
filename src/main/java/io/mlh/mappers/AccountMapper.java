@@ -1,7 +1,7 @@
 package io.mlh.mappers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.mlh.objects.CapitalOneAccount;
+import io.mlh.objects.capitalone.CapitalOneAccount;
 import org.json.JSONArray;
 
 import java.util.Arrays;

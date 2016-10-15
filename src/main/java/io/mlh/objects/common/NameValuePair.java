@@ -1,4 +1,4 @@
-package io.mlh.objects;
+package io.mlh.objects.common;
 
 public class NameValuePair implements org.apache.http.NameValuePair {
 

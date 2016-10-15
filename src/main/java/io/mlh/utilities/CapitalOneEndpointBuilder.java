@@ -1,6 +1,6 @@
 package io.mlh.utilities;
 
-import io.mlh.objects.NameValuePair;
+import io.mlh.objects.common.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 
 import java.util.ArrayList;
