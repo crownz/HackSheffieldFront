@@ -31,8 +31,10 @@ public class ViewerController {
     @RequestMapping("/data")
     public Object getData() {
         Metadata md = ssService.getDisplayMetadata();
-        md.setChangesMadeSinceLastUpdate(false);
-        ssService.setDisplayMetadata(md);
+        if (md != null) {
+            md.setChangesMadeSinceLastUpdate(false);
+            ssService.setDisplayMetadata(md);
+        }
         return ssService.getDisplayData();
     }
 
