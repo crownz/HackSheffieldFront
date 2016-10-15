@@ -1,6 +1,8 @@
 package io.mlh.objects.capitalone;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.mlh.mappers.CapitalOneDescriptionSerializer;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -13,7 +15,7 @@ public class CapitalOneWithdrawal {
     @JsonProperty("amount")
     private Double amount;
 
-    @JsonProperty("description")
+    @JsonProperty("description") @JsonSerialize( using = CapitalOneDescriptionSerializer.class )
     private List<String> description;
 
     @JsonProperty("medium")
