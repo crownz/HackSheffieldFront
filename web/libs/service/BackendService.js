@@ -6,11 +6,11 @@ angular.module('HackSheffield').factory('BackendService',function($http) {
 
     var BackendService = {};
 
-    BackendService.getAllAcounts = function() {
-        return $http.get(restPath + 'capital/accounts/all').then(function(res) {
+    BackendService.getData = function() {
+        return $http.get(restPath + 'api/getData').then(function(res) {
             if (res && res.data) {
                 console.log("get accounts data: ", res.data);
-                return res.data;
+                return res.data.data;
             }
             
         });
