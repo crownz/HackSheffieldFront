@@ -15,7 +15,8 @@ public class CapitalOneWithdrawal {
     @JsonProperty("amount")
     private Double amount;
 
-    @JsonProperty("description") @JsonSerialize( using = CapitalOneDescriptionSerializer.class )
+    @JsonSerialize( using = CapitalOneDescriptionSerializer.class, as = List.class )
+    @JsonProperty("description")
     private List<String> description;
 
     @JsonProperty("medium")
