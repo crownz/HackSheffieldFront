@@ -1,7 +1,9 @@
 package io.mlh.controllers;
 
-import io.mlh.objects.DisplayData;
+import io.mlh.objects.DisplayMetadata;
 import io.mlh.services.CapitalOneService;
+import io.mlh.services.SystemStateService;
+import io.mlh.types.DataSetType;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,22 +16,24 @@ public class ViewerController {
 
     private final static Logger logger = LogManager.getLogger(ViewerController.class);
 
-    private final CapitalOneService service;
+    private final SystemStateService ssService;
 
     @Autowired
-    public ViewerController(CapitalOneService service) {
+    public ViewerController(CapitalOneService coService, SystemStateService ssService) {
         logger.debug("Initializing " + this.getClass() + "!");
-        this.service = service;
+        this.ssService = ssService;
+        ssService.setDisplayData(coService.getAllAccounts());
+        ssService.setDisplayMetadata(new DisplayMetadata("chart", true, coService.getAllAccounts().size(), DataSetType.ACCOUNT, "/accounts"));
     }
 
-    @RequestMapping("/shouldUpdateData")
-    public boolean shouldUpdateData() {
-        return true;
+    @RequestMapping("/metadata")
+    public DisplayMetadata getMetadata() {
+        return ssService.getDisplayMetadata();
     }
 
-    @RequestMapping("/getData")
-    public DisplayData getData() {
-        return new DisplayData("chart", service.getAllAccounts());
+    @RequestMapping("/data")
+    public Iterable getData() {
+        return ssService.getDisplayData();
     }
 
 }

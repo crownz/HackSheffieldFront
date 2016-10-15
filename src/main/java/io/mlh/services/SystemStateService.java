@@ -1,21 +1,31 @@
 package io.mlh.services;
 
+import io.mlh.objects.DisplayMetadata;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SystemStateService {
 
-    /**
-     * If alexa has updated changes and the front end has not pulled since,
-     * then the variable is set to true.
-     */
-    private boolean changesHaveBeenMade;
+    private Iterable displayData;
 
+    private DisplayMetadata displayMetadata;
 
     public SystemStateService() {
-        changesHaveBeenMade = true;
     }
 
+    public Iterable getDisplayData() {
+        return displayData;
+    }
 
+    public void setDisplayData(Iterable displayData) {
+        this.displayData = displayData;
+    }
 
+    public DisplayMetadata getDisplayMetadata() {
+        return displayMetadata;
+    }
+
+    public void setDisplayMetadata(DisplayMetadata displayMetadata) {
+        this.displayMetadata = displayMetadata;
+    }
 }
