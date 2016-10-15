@@ -39,11 +39,11 @@ public class AlexaController {
         List lAcc = coService.getAllAccounts();
         DisplayElementConfig config;
 
-        if(displayElementType.contains("bar")) {
+        if(displayElementType.toLowerCase().contains("bar")) {
             config = new BarChartDisplayElementConfig(groupedBy);
-        } else if (displayElementType.contains("pie")) {
+        } else if (displayElementType.toLowerCase().contains("pie")) {
             config = new PieChartDisplayElementConfig(groupedBy);
-        } else if (displayElementType.contains("table")) {
+        } else if (displayElementType.toLowerCase().contains("table")) {
             //Change to table config.
             config = new PieChartDisplayElementConfig(groupedBy);
         } else {
