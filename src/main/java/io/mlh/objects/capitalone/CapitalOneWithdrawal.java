@@ -10,7 +10,7 @@ public class CapitalOneWithdrawal {
     private String id;
 
     @JsonProperty("amount")
-    private BigInteger amount;
+    private Double amount;
 
     @JsonProperty("description")
     private String description;
@@ -38,11 +38,11 @@ public class CapitalOneWithdrawal {
         this.id = id;
     }
 
-    public BigInteger getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(BigInteger amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
