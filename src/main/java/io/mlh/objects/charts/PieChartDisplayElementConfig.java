@@ -7,7 +7,7 @@ public class PieChartDisplayElementConfig implements DisplayElementConfig {
     private final String groupedBy;
 
     public PieChartDisplayElementConfig(String groupedBy) {
-        this.groupedBy = groupedBy;
+        this.groupedBy = groupedBy != null ? groupedBy : "type";
     }
 
     @Override
