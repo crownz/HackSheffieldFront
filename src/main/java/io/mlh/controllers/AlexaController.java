@@ -36,7 +36,6 @@ public class AlexaController {
             @RequestParam String displayElementType,
             @RequestParam String requestType,
             @RequestParam(required=false) String groupedBy) {
-        List lAcc = coService.getAllAccounts();
         DisplayElementConfig config;
 
         if(displayElementType.toLowerCase().contains("bar")) {
@@ -50,9 +49,18 @@ public class AlexaController {
             throw new IllegalArgumentException("Invalid displayElementType provided. Only pie,bar charts and table supported");
         }
 
+        List data;
 
-        ssService.setDisplayData(lAcc);
-        ssService.setDisplayMetadata(new Metadata(config, true, lAcc.size(), DataSetType.valueOf(requestType.toUpperCase()), false));
+        if (DataSetType.valueOf(requestType).equals(DataSetType.ACCOUNT)) {
+            data = coService.getAllAccounts();
+        } else if (DataSetType.valueOf(requestType).equals(DataSetType.WITHDRAWAL)){
+            data = coService.getAllWithdrawals();
+        } else {
+            throw new IllegalArgumentException("Unsupported requestType");
+        }
+
+        ssService.setDisplayData(data);
+        ssService.setDisplayMetadata(new Metadata(config, true, data.size(), DataSetType.valueOf(requestType.toUpperCase()), false));
     }
 
     @RequestMapping("/stop")

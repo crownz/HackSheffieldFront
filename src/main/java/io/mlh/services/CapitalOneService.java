@@ -2,7 +2,9 @@ package io.mlh.services;
 
 import com.mashape.unirest.http.JsonNode;
 import io.mlh.mappers.AccountMapper;
+import io.mlh.mappers.WithdrawalMapper;
 import io.mlh.objects.capitalone.CapitalOneAccount;
+import io.mlh.objects.capitalone.CapitalOneWithdrawal;
 import io.mlh.utilities.CapitalOneEndpointBuilder;
 import io.mlh.utilities.HttpRequests;
 import org.apache.log4j.LogManager;
@@ -19,12 +21,15 @@ public class CapitalOneService {
 
     private final String apiKey = "26059d7a49b50d50e556469c846b0d60";
 
-    private final AccountMapper mapper;
+    private final AccountMapper accountMapper;
+    private final WithdrawalMapper withdrawalMapper;
 
     private List<CapitalOneAccount> accounts;
+    private List<CapitalOneWithdrawal> withdrawals;
 
     public CapitalOneService() {
-        this.mapper = new AccountMapper();
+        this.accountMapper = new AccountMapper();
+        this.withdrawalMapper = new WithdrawalMapper();
     }
 
     public List<CapitalOneAccount> getAllAccounts() {
@@ -38,8 +43,22 @@ public class CapitalOneService {
         logger.info("Making getAllAccounts request to: " + url);
 
         JsonNode response = HttpRequests.doGet(url, null);
-        accounts = mapper.deserializeArray((JSONArray) response.getObject().get("results"));
+        accounts = accountMapper.deserializeArray((JSONArray) response.getObject().get("results"));
         return accounts;
     }
 
+    public List getAllWithdrawals() {
+        if (withdrawals != null) return withdrawals;
+
+        String url = new CapitalOneEndpointBuilder()
+                .withEndpoint("/enterprise/withdrawals")
+                .withParam("key", apiKey)
+                .toString();
+
+        logger.info("Making getAllWithdrawals request to: " + url);
+
+        JsonNode response = HttpRequests.doGet(url, null);
+        withdrawals = withdrawalMapper.deserializeArray((JSONArray) response.getObject().get("results"));
+        return withdrawals;
+    }
 }
