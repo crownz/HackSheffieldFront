@@ -3,10 +3,7 @@ package io.mlh.utilities;
 import io.mlh.objects.Metadata;
 
 import javax.el.MethodNotFoundException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @SuppressWarnings("unchecked")
@@ -38,7 +35,7 @@ public class DisplayDataProcessUtils {
             result = groupBy((Collection) result);
         }
 
-        result = sumMap((Map<String, Collection>) result);
+        result = d3Ify(sumMap((Map<String, Collection>) result));
 
         return result;
     }
@@ -47,6 +44,19 @@ public class DisplayDataProcessUtils {
         return (Map<String, List>)dataSet
                 .stream()
                 .collect(Collectors.groupingBy(this::groupingFn));
+    }
+
+    private List<Map<String, Object>> d3Ify(Map<String, Integer> original) {
+        List<Map<String,Object>> result = new ArrayList<>();
+
+        original.forEach((String k, Integer v) -> {
+            Map<String, Object> r = new HashMap<>();
+            r.put("name", k);
+            r.put("value", v);
+            result.add(r);
+        });
+
+        return result;
     }
 
     private Map<String, Integer> sumMap(Map<String, Collection> dataSet) {

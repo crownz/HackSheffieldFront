@@ -1,5 +1,5 @@
 angular.module('HackSheffield').directive('pieChart', function(d3Service, 
-    BackendService) {
+    BackendService, $timeout) {
     return {
         restrict: 'E',
         replace: true,
@@ -10,9 +10,24 @@ angular.module('HackSheffield').directive('pieChart', function(d3Service,
         link: function(scope, element, attrs, fn) {
 
             var d3 = d3Service;
+
+            var newData = [
+                {
+                    name: 'xxx',
+                    value: 222
+                },
+                {
+                    name: 'xxeex',
+                    value: 1231
+                },
+                {
+                    name: 'ddd',
+                    value: 3711
+                }
+            ];
             
-            var width = 960,
-            height = 500,
+            var width = 400,
+            height = 400,
             radius = Math.min(width, height) / 2;
 
             var color = d3.scaleOrdinal(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
@@ -22,8 +37,8 @@ angular.module('HackSheffield').directive('pieChart', function(d3Service,
               .innerRadius(0);
 
             var labelArc = d3.arc()
-              .outerRadius(radius - 40)
-              .innerRadius(radius - 40);
+              .outerRadius(radius - 60)
+              .innerRadius(radius - 60);
 
             var pie = d3.pie()
               .sort(null)
@@ -35,50 +50,100 @@ angular.module('HackSheffield').directive('pieChart', function(d3Service,
               .append("g")
                 .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-            
+            var update, enter;
 
             function init() {
                 BackendService.getData().then(function(data) {
 
-                    console.log("initing pie, have data", data);
+                    console.log("initing pie, have data", data, pie(data));
 
-                    var fakeData = [
-                        {
-                            name: 'john',
-                            value: 12
-                        },
-                        {
-                            name: 'frefrefre',
-                            value: 8
-                        },
-                        {
-                            name: 'xxxxx',
-                            value: 16
-                        }
-                    ];
+                    update = svg.selectAll(".arc")
+                      .data(pie(data));
 
-                    var g = svg.selectAll(".arc")
-                      .data(pie(fakeData))
-                      .enter().append("g")
+                    update.exit().remove();
+
+                    enter = update.enter()
+                      .append("g")
                       .attr("class", "arc");
 
-                    g.append("path")
-                      .attr("d", arc)
-                      .style("fill", function(d) { return color(d.data.age); });
+                    enter.append("path")
+                      .style("fill", function(d) { return color(d.value); })
+                      .transition().duration(750).attrTween('d', enterTween);
 
-                    // g.append("text")
-                    //   .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
-                    //   .attr("dy", ".35em")
-                    //   .text(function(d) { return d.data.age; });
+                    enter.append("text")
+                       .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
+                       .attr("dy", ".35em")
+                       .attr("opacity", 0)
+                       .text(function(d) { return d.data.name; })
+                       .transition()
+                       .duration(1000)
+                       .attr("opacity", 1);
+
+                    enter.exit().remove();
                 });
             }
 
-            function type(d) {
-              d.population = +d.population;
-              return d;
+            function enterTween(d) {
+                var i = d3.interpolate(0, d.endAngle);
+                   return function(t) {
+                       d.endAngle = i(t);
+                     return arc(d);
+                   };
             }
 
-            init();
+            function updateArcTween(d) {
+                console.log("updating tween", d);
+                var i = d3.interpolate(d.startAngle+0.1, d.endAngle);
+                   return function(t) {
+                       d.endAngle = i(t);
+                     return arc(d);
+                   };
+            }
+
+            scope.changeData = function() {
+                var update = svg.selectAll(".arc")
+                    .data(pie(newData));
+
+                console.log("updated data with new data ", pie(newData));
+
+                update.exit().remove();
+
+                update.append("path")
+                    .style("fill", function(d) { return color(d.value); })
+                    .transition().duration(750)
+                    .attrTween('d', updateArcTween);
+
+                update.selectAll("text").remove();
+
+                update.append("text")
+                    .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
+                    .attr("dy", ".35em")
+                    .attr("opacity", 0)
+                    .text(function(d) { return d.data.name; })
+                    .transition()
+                    .duration(1000)
+                    .attr("opacity", 1);
+
+
+
+                //update.merge(enter);
+                    
+                // update.merge(enter)
+                //     //.append("g")
+                //     ////.attr("class", "arc")
+                //     .append("path")
+                //     .style("fill", function(d) { return color(d.value); })
+                //     .transition().duration(750)
+                //     .style("fill", 'red')
+                //     .attrTween('d', arcTween);
+
+                update.exit().remove();
+            };
+
+            $timeout(function() {
+                init();
+            }, 500);
+            
 
         }
     };

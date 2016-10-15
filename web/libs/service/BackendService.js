@@ -7,14 +7,25 @@ angular.module('HackSheffield').factory('BackendService',function($http) {
     var BackendService = {};
 
     BackendService.getData = function() {
-        return $http.get(restPath + 'api/getData').then(function(res) {
+        return $http.get(restPath + 'api/data').then(function(res) {
             if (res && res.data) {
-                console.log("get accounts data: ", res.data);
-                return res.data.data;
+                return res.data;
             }
             
         });
     };
+
+    BackendService.getMetaData = function() {
+        return $http.get(restPath + 'api/metadata').then(function(res) {
+            if (res && res.data) {
+                return res.data;
+            }
+            
+        });
+    };
+
+
+
 
     return BackendService;
 });
