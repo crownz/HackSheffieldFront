@@ -227,7 +227,7 @@ module.exports = function (grunt) {
         files.push('bower_components/angular-mocks/angular-mocks.js');
         files.push(spec);
         grunt.config('karma.options.files', files);
-        tasksToRun.push('karma:during_watch');
+        //tasksToRun.push('karma:during_watch');
       }
     }
 

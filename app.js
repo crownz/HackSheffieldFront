@@ -1,9 +1,10 @@
-angular.module('HackSheffield', ['ui.bootstrap','ngRoute','ngAnimate']);
+angular.module('HackSheffield', ['ui.bootstrap','ngRoute','ngAnimate', 'ngMaterial']);
 
 angular.module('HackSheffield').config(function($routeProvider) {
 
     $routeProvider.when('/home', {
-        templateUrl: 'libs/partial/home.html'
+        templateUrl: 'libs/partial/home.html',
+        controller: 'HomeCtrl'
     });
 
     /* Add New Routes Above */
