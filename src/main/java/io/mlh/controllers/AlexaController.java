@@ -1,6 +1,5 @@
 package io.mlh.controllers;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
 import io.mlh.objects.DisplayElementConfig;
 import io.mlh.objects.Metadata;
 import io.mlh.objects.charts.BarChartDisplayElementConfig;
