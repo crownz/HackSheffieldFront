@@ -1,5 +1,6 @@
-angular.module('HackSheffield').controller('HomeCtrl',function($scope, d3Service) {
+angular.module('HackSheffield').controller('HomeCtrl',function($scope, d3Service,
+ BackendService) {
 	
-	d3Service.printD3();
+	BackendService.getAllAcounts();
 
 });
