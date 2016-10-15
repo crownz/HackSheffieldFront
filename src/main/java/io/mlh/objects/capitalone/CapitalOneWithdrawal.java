@@ -3,6 +3,7 @@ package io.mlh.objects.capitalone;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.math.BigInteger;
+import java.util.List;
 
 public class CapitalOneWithdrawal {
 
@@ -13,7 +14,7 @@ public class CapitalOneWithdrawal {
     private Double amount;
 
     @JsonProperty("description")
-    private String description;
+    private List<String> description;
 
     @JsonProperty("medium")
     private String medium;
@@ -46,11 +47,11 @@ public class CapitalOneWithdrawal {
         this.amount = amount;
     }
 
-    public String getDescription() {
+    public List<String> getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(List<String> description) {
         this.description = description;
     }
 
