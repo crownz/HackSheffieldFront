@@ -50,7 +50,7 @@ public class AlexaController {
             throw new IllegalArgumentException("Invalid displayElementType provided. Only pie,bar charts and table supported");
         }
 
-        
+
         ssService.setDisplayData(lAcc);
         ssService.setDisplayMetadata(new Metadata(config, true, lAcc.size(), DataSetType.valueOf(requestType.toUpperCase())));
     }
