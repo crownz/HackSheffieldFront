@@ -23,14 +23,17 @@ public class DisplayDataProcessUtils {
 
         switch(metadata.getDisplayElementConfig().getType()) {
             case "pie_chart":
-                result = processPieChart(data, metadata);
+                result = processPieOrBarChart(data, metadata);
+                break;
+            case "bar_chart":
+                result = processPieOrBarChart(data, metadata);
                 break;
             default: throw new IllegalArgumentException("Unsupported chart type!");
         }
         return result;
     }
 
-    private Object processPieChart(Object data, Metadata metadata) {
+    private Object processPieOrBarChart(Object data, Metadata metadata) {
         Object result = data;
 
         if (metadata.getDisplayElementConfig().getGroupedBy() != null) {
