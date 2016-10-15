@@ -1,8 +1,6 @@
 package io.mlh.services;
 
-import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
-import io.mlh.controllers.CapitalController;
 import io.mlh.mappers.AccountMapper;
 import io.mlh.objects.CapitalOneAccount;
 import io.mlh.utilities.CapitalOneEndpointBuilder;
@@ -23,11 +21,15 @@ public class CapitalOneService {
 
     private final AccountMapper mapper;
 
+    private List<CapitalOneAccount> accounts;
+
     public CapitalOneService() {
         this.mapper = new AccountMapper();
     }
 
     public List<CapitalOneAccount> getAllAccounts() {
+        if (accounts != null) return accounts;
+
         String url = new CapitalOneEndpointBuilder()
                 .withEndpoint("/enterprise/accounts")
                 .withParam("key", apiKey)
@@ -36,7 +38,8 @@ public class CapitalOneService {
         logger.info("Making getAllAccounts request to: " + url);
 
         JsonNode response = HttpRequests.doGet(url, null);
-        return mapper.deserializeArray((JSONArray) response.getObject().get("results"));
+        accounts = mapper.deserializeArray((JSONArray) response.getObject().get("results"));
+        return accounts;
     }
 
 }
