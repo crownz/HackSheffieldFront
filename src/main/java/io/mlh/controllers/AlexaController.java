@@ -36,14 +36,7 @@ public class AlexaController {
             @RequestParam String displayElementType,
             @RequestParam String requestType,
             @RequestParam(required=false) String groupedBy) {
-
-        logger.error("Called alexa setMode!");
-        logger.error("display element type " + displayElementType);
-        logger.error("request type" + requestType);
-
         List lAcc = coService.getAllAccounts();
-
-
         DisplayElementConfig config;
 
         if(displayElementType.contains("bar")) {
