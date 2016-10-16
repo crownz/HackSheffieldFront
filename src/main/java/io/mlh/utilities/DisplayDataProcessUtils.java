@@ -36,7 +36,7 @@ public class DisplayDataProcessUtils {
 
                 tempSortedBy = ((TableChartDisplayElementConfig)metadata.getDisplayElementConfig()).getSorted();
 
-                ((Collection<CapitalOneWithdrawal>)data)
+                return ((List<CapitalOneWithdrawal>)data)
                         .stream()
                         .sorted(this::sortFn)
                         .collect(Collectors.toList());
