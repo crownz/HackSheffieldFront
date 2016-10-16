@@ -1,6 +1,7 @@
 package io.mlh.utilities;
 
 import io.mlh.objects.Metadata;
+import io.mlh.objects.capitalone.CapitalOneWithdrawal;
 
 import javax.el.MethodNotFoundException;
 import java.util.*;
@@ -35,7 +36,7 @@ public class DisplayDataProcessUtils {
 
     private Object processPieOrBarChart(Object data, Metadata metadata) {
         Object result = data;
-
+        
         if (metadata.getDisplayElementConfig().getGroupedBy() != null) {
             result = groupBy((Collection) result);
         }
@@ -48,6 +49,7 @@ public class DisplayDataProcessUtils {
     private Map<String, List> groupBy(Collection dataSet) {
         return (Map<String, List>)dataSet
                 .stream()
+                .filter(this::filterNulls)
                 .collect(Collectors.groupingBy(this::groupingFn));
     }
 
@@ -70,6 +72,14 @@ public class DisplayDataProcessUtils {
         });
 
         return result;
+    }
+
+    private boolean filterNulls (Object obj) {
+        try {
+            return obj.getClass().getMethod(getMethodName).invoke(obj) != null;
+        } catch (Exception e) {
+            throw new MethodNotFoundException(e.getCause());
+        }
     }
 
     private Object groupingFn(Object o) {
