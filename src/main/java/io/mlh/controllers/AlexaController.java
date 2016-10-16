@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -69,6 +70,22 @@ public class AlexaController {
                 false));
     }
 
+    @RequestMapping("/colors")
+    public void colors(
+            @RequestParam String color1,
+            @RequestParam String color2
+    ) {
+        List<String> ls = new ArrayList<>();
+
+        ls.add(color1);
+        ls.add(color2);
+
+        Metadata md = ssService.getDisplayMetadata();
+
+        md.setColors(ls);
+
+        ssService.setDisplayMetadata(md);
+    }
 
     @RequestMapping("/hide")
     public void hide(

@@ -40,7 +40,7 @@ public class ViewerController {
             );
 
             if (newMd.shouldStopPolling()) newMd.setShouldStopPolling(false);
-            
+
             ssService.setDisplayMetadata(newMd);
         }
 
