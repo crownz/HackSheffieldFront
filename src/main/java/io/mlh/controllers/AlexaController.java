@@ -77,9 +77,11 @@ public class AlexaController {
     ) {
         Metadata md = ssService.getDisplayMetadata();
 
-        if (hideTable) md.setHideTable(true);
-        if (hideChart) md.setHideChart(true);
-
+        if (md != null) {
+            if (hideTable) md.setHideTable(true);
+            if (hideChart) md.setHideChart(true);
+        }
+        
         ssService.setDisplayMetadata(md);
     }
 
