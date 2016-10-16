@@ -73,12 +73,14 @@ public class AlexaController {
     @RequestMapping("/colors")
     public void colors(
             @RequestParam String color1,
-            @RequestParam String color2
+            @RequestParam String color2,
+            @RequestParam(required = false) String color3
     ) {
         List<String> ls = new ArrayList<>();
 
         ls.add(color1);
         ls.add(color2);
+        if (color3 != null) ls.add(color3);
 
         Metadata md = ssService.getDisplayMetadata();
 
