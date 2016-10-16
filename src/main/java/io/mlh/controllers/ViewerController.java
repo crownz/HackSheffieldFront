@@ -28,16 +28,17 @@ public class ViewerController {
 
     @RequestMapping("/metadata")
     public Metadata getMetadata() {
-        return ssService.getDisplayMetadata();
+        Metadata md = ssService.getDisplayMetadata();
+        Metadata newMd = md;
+        newMd.setChangesMadeSinceLastUpdate(false);
+
+        ssService.setDisplayMetadata(newMd);
+
+        return md;
     }
 
     @RequestMapping("/data")
     public Object getData() {
-        Metadata md = ssService.getDisplayMetadata();
-        if (md != null) {
-            md.setChangesMadeSinceLastUpdate(false);
-            ssService.setDisplayMetadata(md);
-        }
         return ssService.getDisplayData();
     }
 
