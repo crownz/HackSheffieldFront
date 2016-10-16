@@ -31,7 +31,7 @@ public class Metadata {
     @JsonProperty("colors")
     private List<String> colors;
 
-    public Metadata(DisplayElementConfig displayElementConfig, boolean changesMade, Integer dataSize, DataSetType requestType, boolean shouldStopPolling) {
+    public Metadata(DisplayElementConfig displayElementConfig, boolean changesMade, Integer dataSize, DataSetType requestType, boolean shouldStopPolling, List<String> colors) {
         this.displayElementConfig = displayElementConfig;
         this.changesMadeSinceLastUpdate = changesMade;
         this.dataSize = dataSize;
@@ -39,7 +39,7 @@ public class Metadata {
         this.shouldStopPolling = shouldStopPolling;
         this.hideChart = false;
         this.hideTable = false;
-        this.colors = null;
+        this.colors = colors;
     }
 
     public DisplayElementConfig getDisplayElementConfig() {

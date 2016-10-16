@@ -67,7 +67,7 @@ public class AlexaController {
                 true,
                 data.size(),
                 DataSetType.valueOf(requestType.toUpperCase()),
-                false));
+                false, null));
     }
 
     @RequestMapping("/colors")

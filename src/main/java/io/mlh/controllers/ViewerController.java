@@ -36,7 +36,8 @@ public class ViewerController {
                     false,
                     md.getDataSize(),
                     md.getRequestType(),
-                    md.shouldStopPolling()
+                    md.shouldStopPolling(),
+                    md.getColors()
             );
 
             if (newMd.shouldStopPolling()) newMd.setShouldStopPolling(false);
