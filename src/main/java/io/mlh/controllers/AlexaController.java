@@ -82,9 +82,10 @@ public class AlexaController {
 
         Metadata md = ssService.getDisplayMetadata();
 
-        md.setColors(ls);
-
-        ssService.setDisplayMetadata(md);
+        if (md != null) {
+            md.setColors(ls);
+            ssService.setDisplayMetadata(md);
+        }
     }
 
     @RequestMapping("/hide")
