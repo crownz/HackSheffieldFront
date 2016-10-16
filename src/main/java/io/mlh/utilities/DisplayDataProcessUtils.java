@@ -20,21 +20,10 @@ public class DisplayDataProcessUtils {
     public Object process(Object data, Metadata metadata) {
         if (data == null) return null;
 
-        Object result;
-
-        switch(metadata.getDisplayElementConfig().getType()) {
-            case "pie_chart":
-                result = processPieOrBarChart(data, metadata);
-                break;
-            case "bar_chart":
-                result = processPieOrBarChart(data, metadata);
-                break;
-            default: throw new IllegalArgumentException("Unsupported chart type!");
-        }
-        return result;
+        return processChart(data, metadata);
     }
 
-    private Object processPieOrBarChart(Object data, Metadata metadata) {
+    private Object processChart(Object data, Metadata metadata) {
         Object result = data;
 
         if (metadata.getDisplayElementConfig().getGroupedBy() != null) {
