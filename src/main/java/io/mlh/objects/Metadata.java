@@ -26,14 +26,14 @@ public class Metadata {
     @JsonProperty("hideTable")
     private Boolean hideTable;
 
-    public Metadata(DisplayElementConfig displayElementConfig, boolean changesMade, Integer dataSize, DataSetType requestType, boolean shouldStopPolling, Boolean hideChart, Boolean hideTable) {
+    public Metadata(DisplayElementConfig displayElementConfig, boolean changesMade, Integer dataSize, DataSetType requestType, boolean shouldStopPolling) {
         this.displayElementConfig = displayElementConfig;
         this.changesMadeSinceLastUpdate = changesMade;
         this.dataSize = dataSize;
         this.requestType = requestType;
         this.shouldStopPolling = shouldStopPolling;
-        this.hideChart = hideChart;
-        this.hideTable = hideTable;
+        this.hideChart = false;
+        this.hideTable = false;
     }
 
     public DisplayElementConfig getDisplayElementConfig() {

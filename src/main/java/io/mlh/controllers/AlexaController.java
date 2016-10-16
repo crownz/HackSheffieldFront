@@ -66,7 +66,7 @@ public class AlexaController {
                 true,
                 data.size(),
                 DataSetType.valueOf(requestType.toUpperCase()),
-                false, null, null));
+                false));
     }
 
 
@@ -81,7 +81,7 @@ public class AlexaController {
             if (hideTable) md.setHideTable(true);
             if (hideChart) md.setHideChart(true);
         }
-        
+
         ssService.setDisplayMetadata(md);
     }
 
