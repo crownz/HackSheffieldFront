@@ -74,6 +74,7 @@ public class DisplayDataProcessUtils {
 
     private Object groupingFn(Object o) {
         try {
+            System.out.println(o.getClass().getMethod(getMethodName).invoke(o));
             return o.getClass().getMethod(getMethodName).invoke(o);
         } catch (Exception e) {
             throw new MethodNotFoundException(e.getCause());
