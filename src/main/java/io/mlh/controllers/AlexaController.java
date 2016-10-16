@@ -112,6 +112,7 @@ public class AlexaController {
         Metadata md = ssService.getDisplayMetadata();
         if (md != null) {
             md.setShouldStopPolling(true);
+            md.setChangesMadeSinceLastUpdate(true);
             ssService.setDisplayMetadata(md);
             reset();
         }
