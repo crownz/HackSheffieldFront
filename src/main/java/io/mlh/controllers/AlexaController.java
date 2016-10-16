@@ -166,6 +166,7 @@ public class AlexaController {
 
             if (dec.getType().equals("table")) {
                 md.setDisplayElementConfig(new TableChartDisplayElementConfig(dec.getGroupedBy(), sortBy, md.getRequestType()));
+                md.setChangesMadeSinceLastUpdate(true);
             }
 
             ssService.setDisplayMetadata(md);
