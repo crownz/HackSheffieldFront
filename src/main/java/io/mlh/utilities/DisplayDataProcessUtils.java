@@ -41,7 +41,7 @@ public class DisplayDataProcessUtils {
             result = groupBy((Collection) result);
         }
 
-        result = d3Ify(sumMap((Map<String, Collection>) result));
+        result = d3Ify(sumMap((Map<Object, Collection>) result));
 
         return result;
     }
@@ -53,8 +53,8 @@ public class DisplayDataProcessUtils {
                 .collect(Collectors.groupingBy(this::groupingFn));
     }
 
-    private Map<String, Integer> sumMap(Map<String, Collection> dataSet) {
-        Map<String, Integer> result = new HashMap<>();
+    private Map<Object, Integer> sumMap(Map<Object, Collection> dataSet) {
+        Map<Object, Integer> result = new HashMap<>();
 
         dataSet.forEach((Object k, Collection v) -> {
 
@@ -64,18 +64,18 @@ public class DisplayDataProcessUtils {
 
                 result.put(newDescription.toString(), v.size());
             } else {
-                result.put((String) k, v.size());
+                result.put(k, v.size());
             }
         });
 
         return result;
     }
 
-    private List<Map<String, Object>> d3Ify(Map<String, Integer> original) {
-        List<Map<String,Object>> result = new ArrayList<>();
+    private List<Map<Object, Object>> d3Ify(Map<Object, Integer> original) {
+        List<Map<Object,Object>> result = new ArrayList<>();
 
-        original.forEach((String k, Integer v) -> {
-            Map<String, Object> r = new HashMap<>();
+        original.forEach((Object k, Integer v) -> {
+            Map<Object, Object> r = new HashMap<>();
             r.put("name", k);
             r.put("value", v);
             result.add(r);
