@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 
+import static io.mlh.utilities.WordUtils.toCamelCase;
+
 @RestController
 @RequestMapping("/alexa")
 public class AlexaController {
@@ -124,6 +126,32 @@ public class AlexaController {
             md.setRequestType(DataSetType.KITTENS);
             ssService.setDisplayMetadata(md);
         }
+    }
+
+    @RequestMapping("/groupBy")
+    public void groupBy(@RequestParam String groupBy) {
+        Metadata md = ssService.getDisplayMetadata();
+
+        if (md != null) {
+            DisplayElementConfig dec = md.getDisplayElementConfig();
+
+            switch(dec.getType()) {
+                case "bar_chart":
+                    md.setDisplayElementConfig(new BarChartDisplayElementConfig(toCamelCase(groupBy), md.getRequestType()));
+                    break;
+                case "pie_chart":
+                    md.setDisplayElementConfig(new PieChartDisplayElementConfig(toCamelCase(groupBy), md.getRequestType()));
+                    break;
+                case "table":
+                    md.setDisplayElementConfig(new TableChartDisplayElementConfig(toCamelCase(groupBy), md.getRequestType()));
+                    break;
+                default:
+                    throw new IllegalArgumentException("Type not supported!");
+            }
+
+            ssService.setDisplayMetadata(md);
+        }
+
     }
 
     @RequestMapping("/reset")
