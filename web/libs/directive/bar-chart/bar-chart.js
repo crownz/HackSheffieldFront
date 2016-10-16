@@ -5,7 +5,8 @@ angular.module('HackSheffield').directive('barChart', function(d3Service,
         replace: true,
         scope: {
             isLarge: '=',
-            data: '='
+            data: '=',
+            customColors: '='
         },
         templateUrl: 'libs/directive/bar-chart/bar-chart.html',
         link: function(scope, element, attrs, fn) {
@@ -24,28 +25,20 @@ angular.module('HackSheffield').directive('barChart', function(d3Service,
                 }
             ];
 
-            console.log("Starting d3 chart, height ", $(document));
-
-
             var d3 = d3Service;
 
             var margin = {top: 20, right: 20, bottom: 30, left: 40};
 
             var width, height;
 
-            // $timeout(function() {
-                if (scope.isLarge) {
-                    width = $(window).width() * 0.6 - margin.left - margin.right;
-                    height = $(window).height() * 0.8 - margin.top - margin.bottom;
-                } else {
-                    console.log("smallll");
-                    width = $(window).width() * 0.35 - margin.left - margin.right;
-                    height = $(window).height() * 0.4 - margin.top - margin.bottom;
-                } 
-            // });
-
-            
-            
+            if (scope.isLarge) {
+                width = $(window).width() * 0.6 - margin.left - margin.right;
+                height = $(window).height() * 0.8 - margin.top - margin.bottom;
+            } else {
+                console.log("smallll");
+                width = $(window).width() * 0.35 - margin.left - margin.right;
+                height = $(window).height() * 0.4 - margin.top - margin.bottom;
+            } 
 
             var x = d3.scaleBand()
                 .range([0, width])
@@ -53,6 +46,10 @@ angular.module('HackSheffield').directive('barChart', function(d3Service,
 
             var y = d3.scaleLinear()
                 .range([height, 0]);
+
+            var colorList = ["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"];
+
+            var color = d3.scaleOrdinal(colorList);
 
             var svg = d3.select(".bar-svg-container").append("svg")
                 .attr("width", width + margin.left + margin.right)
@@ -81,6 +78,7 @@ angular.module('HackSheffield').directive('barChart', function(d3Service,
                 
                 bars.enter().append("rect")
                     .attr("class", "bar")
+                    .style("fill", function(d) { return color(d.value); })
                     .attr("x", function(d) { return x(d.name); })
                     .attr("width", x.bandwidth())
                     .attr("y", function(d) { return height - 1; })

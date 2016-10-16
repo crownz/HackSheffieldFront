@@ -8,10 +8,10 @@ angular.module('HackSheffield').directive('dtTable', function() {
         templateUrl: 'libs/directive/data-table/data-table.html',
         link: function(scope, element, attrs, fn) {
             console.log("starting data table");
-            //scope.sampleDataObj = scope.data[0];
-            scope.sampleDataObj = {name: 'xxxxx', fererfer: 'ferfreref', ferfererf: 'grgtrrt'};
-            scope.sampleDataObj2 = {name: 'ferfer', fererfer: 'fe', ferfererf: 'dd'};
-            scope.data = scope.data || [scope.sampleDataObj, scope.sampleDataObj2];
+            scope.sampleDataObj = scope.data[0];
+            //scope.sampleDataObj = {name: 'xxxxx', fererfer: 'ferfreref', ferfererf: 'grgtrrt'};
+            //scope.sampleDataObj2 = {name: 'ferfer', fererfer: 'fe', ferfererf: 'dd'};
+            //scope.data = scope.data || [scope.sampleDataObj, scope.sampleDataObj2];
             var dataLength = Object.keys(scope.sampleDataObj).length;
             scope.widthStyle = {};
 

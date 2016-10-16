@@ -32,10 +32,10 @@ angular.module('HackSheffield').directive('pieChart', function(d3Service,
 
 
             if (scope.isLarge) {
-                height = $(document).height() * 0.8;
+                height = $(window).height() * 0.8;
             } else {
-                var one =  $(document).width() * 0.7 / 2;
-                var two = $(document).height() * 0.8;
+                var one =  $(window).width() * 0.7 / 2;
+                var two = $(window).height() * 0.8;
                 if (one < two) {
                     height = one;
                 } else {
@@ -136,26 +136,10 @@ angular.module('HackSheffield').directive('pieChart', function(d3Service,
                     .transition()
                     .duration(1000)
                     .attr("opacity", 1);
-
-
-
-                //update.merge(enter);
-                    
-                // update.merge(enter)
-                //     //.append("g")
-                //     ////.attr("class", "arc")
-                //     .append("path")
-                //     .style("fill", function(d) { return color(d.value); })
-                //     .transition().duration(750)
-                //     .style("fill", 'red')
-                //     .attrTween('d', arcTween);
-
                 update.exit().remove();
             };
 
-            $timeout(function() {
-                init();
-            }, 500);
+            init();
             
 
         }

@@ -5,14 +5,15 @@ angular.module('HackSheffield').controller('HomeCtrl',function($scope, d3Service
 	$scope.starting = false;
 
 	//Shows if polling for changes is live
-	$scope.started = true;
+	$scope.started = false;
 
 	//Shows how to display data
 	$scope.displayChart = false;
-	$scope.displayTable = true;
+	$scope.displayTable = false;
 
 	//Current data to display
 	$scope.currentData = undefined;
+	$scope.tableData = undefined;
 
 	//Type of chart
 	$scope.chartType = 'bar';
@@ -20,12 +21,17 @@ angular.module('HackSheffield').controller('HomeCtrl',function($scope, d3Service
 	//Shows if data display update is in progress
 	$scope.updatingChanges = false;
 
+	$scope.reinit = true;
+
 	$scope.dots = 3;
+
+	$scope.logItems = [];
 
 	function waitForStart() {
 		$timeout(function() {
 			BackendService.askForStartup().then(function(res) {
 				if (res.hasBeenTouched) {
+					$scope.logItems.push('Started app');
 					startApp();
 				} else {
 					waitForStart();
@@ -51,6 +57,7 @@ angular.module('HackSheffield').controller('HomeCtrl',function($scope, d3Service
 		$scope.displayTable = false;
 		$scope.currentData = undefined;
 		$scope.updatingChanges = false;
+		$scope.logItems.push('Stopped app');
 	}
 
 	function startLoop() {
@@ -61,37 +68,68 @@ angular.module('HackSheffield').controller('HomeCtrl',function($scope, d3Service
 					stopApp();
 				} else if (meta && meta.changesMadeSinceLastUpdate) {
 					$scope.updatingChanges = true;
-					BackendService.getData().then(function(data) {
-						console.log("GOT NEW DATA!!!!", data, meta);
-						switch(meta.displayElementConfig.type) {
-							case 'bar_chart':
-								$scope.currentData = data;
-								$scope.displayChart = true;
-								$scope.chartType = 'bar';
-								
-								break;
-							case 'pie_chart':
-								$scope.currentData = data;
-								$scope.displayChart = true;
-								$scope.chartType = 'pie';
-								break;
-							case 'table':
-								$scope.currentData = data;
-								$scope.displayTable = true;
-								break;
-							default:
-								break;
-						}
+					$scope.logItems.push('Got a change from Alexa');
 
+					if (meta.hideChart) {
+						$scope.displayChart = false;
 						$timeout(function() {
 							$scope.updatingChanges = false;
+							$scope.logItems.push('Hid chart');
 							startLoop();
 						}, 500);
-					});
+					} else if (meta.hideTable) {
+						$scope.displayTable = false;
+						$timeout(function() {
+							$scope.updatingChanges = false;
+							$scope.logItems.push('Hid table');
+							startLoop();
+						}, 500);
+					} else {
+						BackendService.getData().then(function(data) {
+							$scope.logItems.push('Updated data');
+							console.log("GOT NEW DATA!!!!", data, meta);
+							switch(meta.displayElementConfig.type) {
+								case 'bar_chart':
+									$scope.currentData = data;
+									if ($scope.chartType === 'bar' && 
+											$scope.displayChart === true) {
+										reinit();
+									}
+									$scope.displayChart = true;
+									$scope.chartType = 'bar';
+									
+									break;
+								case 'pie_chart':
+									$scope.currentData = data;
+									if ($scope.chartType === 'pie' && 
+											$scope.displayChart === true) {
+										reinit();
+									}
+									$scope.displayChart = true;
+									$scope.chartType = 'pie';
+									break;
+								case 'table':
+									$scope.tableData = data;
+									$scope.displayTable = true;
+									if ($scope.displayChart) {
+										reinit();
+									}
+									break;
+								default:
+									break;
+							}
+
+							$timeout(function() {
+								$scope.updatingChanges = false;
+								startLoop();
+							}, 500);
+						});
+					}
+
+					
+					
 				} else if ($scope.started) {
 					startLoop();
-				} else {
-					console.log("kk stoping wtf", $scope.started, meta);
 				}
 			}, 500);
 		});
@@ -113,8 +151,28 @@ angular.module('HackSheffield').controller('HomeCtrl',function($scope, d3Service
 		}, 1000);
 	}
 
+	function reinit() {
+		$scope.reinit = false;
+
+		$timeout(function() {
+			$scope.reinit = true;
+		});
+	}
+
 	loopDots();
 
-	//waitForStart();
+	waitForStart();
+
+	function displayKittens() {
+		$scope.showKittens = true;
+
+		$timeout(function() {
+			$scope.kittensReady = true;
+		}, 1000);
+	}
+
+	//displayKittens();
+
+	
 
 });

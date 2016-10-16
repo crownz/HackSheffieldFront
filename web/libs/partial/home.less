@@ -2,6 +2,9 @@
 	width: 100%;
 	height: 100%;
 	background: white;
+	position: relative;
+
+
 
 	.content-container {
 		box-shadow: 1px 1px 1px #BDBDBD;
@@ -9,11 +12,14 @@
 		height: 90%;
 		border: 1px solid #E0E0E0;
 		background: #EEEEEE;
+		position: relative;
 	}
 
 	
 	.start-container {
 		position: relative;
+		opacity: 1;
+    	transition: opacity 1s linear;
 		
 
 		.welcome-text {
@@ -31,14 +37,11 @@
 			top: ~"calc(50% - 250px)";
 			font-size: 500px;
 			color: rgba(0, 0, 0, 0.1);
-			opacity: 1;
-    		transition: opacity 1s linear;
 		}
 
 		&.app-started {
 			opacity: 0;
 		}
-
 	}
 
 	.boxes-container {
@@ -51,17 +54,17 @@
 		box-shadow: 1px 1px 1px #BDBDBD;
 
 		.box1 {
-			height: 30%;
+			height: 35%;
 			width: 100%;
-			background: #FFD600;
+			background: #448AFF;
 			margin-top: 20px;
 			box-shadow: 1px 1px 1px #E0E0E0;
+			position: relative;
 
 			.log-title {
 				width: 100%;
 				font-size: 22px;
 				padding: 10px;
-				//padding-top: 0;
 				text-align: center;
 				font-weight: bold;
 				color: white;
@@ -70,8 +73,7 @@
 			.log-item {
 				width: 100%;
 				font-size: 18px;
-				padding: 10px;
-				//padding-top: 0;
+				padding-left: 10px;
 				text-align: left;
 				color: white;
 			}
@@ -80,16 +82,14 @@
 		.box2 {
 			height: 30%;
 			width: 100%;
-			background: #FF3D00;
+			background: #448AFF;
 			margin-top: 20px;
-			box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);
-
-			
+			box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+			position: relative;
 
 			.waiting-alexa-icon {
 				margin-top: 15px;
 				color: white;
-				//margin: 0;
 				font-size: 100px;
 				width: 100px;
 				height: 100px;
@@ -102,7 +102,7 @@
 
 				.loader {
 					position: absolute;
-					left: ~"calc(50% - 35px)";
+					left: ~"calc(50% - 25px)";
 					top: ~"calc(50% - 25px)";
 				}
 
@@ -115,9 +115,19 @@
 		.box3 {
 			height: 30%;
 			width: 100%;
-			background: #64DD17;
+			background: #EEEEEE;
 			margin-top: 20px;
-			box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);
+			padding: 10px;
+			position: relative;
+
+			.random-logo {
+				height: 100%;
+				width: auto;
+
+				.nessie {
+					padding: 10px;
+				}
+			}
 		}
 
 		.waiting-alexa-text {
@@ -125,10 +135,26 @@
 			font-size: 18px;
 			padding: 20px;
 			padding-top: 10px;
-			//padding-top: 0;
 			text-align: center;
 			color: white;
 
 		}
+	}
+}
+
+.kitten-image {
+	position: absolute;
+	opacity: 0;
+	transition: opacity 1s linear;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	z-index: 100;
+	width: 100%;
+	height: 100%;
+
+	&.show {
+		opacity: 1;
 	}
 }
