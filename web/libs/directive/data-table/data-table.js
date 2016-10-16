@@ -7,17 +7,13 @@ angular.module('HackSheffield').directive('dtTable', function() {
         },
         templateUrl: 'libs/directive/data-table/data-table.html',
         link: function(scope, element, attrs, fn) {
-            console.log("starting data table");
+            //var v1 = {name: 'grtgrtgtr', value: 15};
+            //var v2 = {name: 'fffx', value: 31};
+            //scope.sampleDataObj = v1;
+            //scope.data = scope.data || [v1, v2];
             scope.sampleDataObj = scope.data[0];
-            //scope.sampleDataObj = {name: 'xxxxx', fererfer: 'ferfreref', ferfererf: 'grgtrrt'};
-            //scope.sampleDataObj2 = {name: 'ferfer', fererfer: 'fe', ferfererf: 'dd'};
-            //scope.data = scope.data || [scope.sampleDataObj, scope.sampleDataObj2];
             var dataLength = Object.keys(scope.sampleDataObj).length;
             scope.widthStyle = {};
-
-
-
-            
 
             function formWidthStyle(length) {
                 console.log("forming style ", length);

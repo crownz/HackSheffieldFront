@@ -1,11 +1,12 @@
-<div class="table-container" layout="column">
+<div class="table-container" layout="column" layout-align="center center">
+
 	<table class="data-table">
 		<tr class="table-row">
 			<th ng-repeat="(key, val) in sampleDataObj" class="table-cell top">
 				{{key}}
 			</th>
 		</tr>
-		<tr class="table-row" ng-repeat="item in data" ng-class="{'darker' : $index % 2 !== 0}">
+		<tr class="table-row" ng-repeat="item in data | limitTo:100" ng-class="{'darker' : $index % 2 !== 0}">
 			<th ng-repeat="(key, val) in item" class="table-cell">
 				{{val}}
 			</th>

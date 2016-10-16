@@ -27,6 +27,8 @@ angular.module('HackSheffield').controller('HomeCtrl',function($scope, d3Service
 
 	$scope.logItems = [];
 
+	//$scope.colors = ['red', 'blue', 'green'];
+
 	function waitForStart() {
 		$timeout(function() {
 			BackendService.askForStartup().then(function(res) {
@@ -57,7 +59,9 @@ angular.module('HackSheffield').controller('HomeCtrl',function($scope, d3Service
 		$scope.displayTable = false;
 		$scope.currentData = undefined;
 		$scope.updatingChanges = false;
+		$scope.showKittens = false;
 		$scope.logItems.push('Stopped app');
+		waitForStart();
 	}
 
 	function startLoop() {
@@ -66,6 +70,16 @@ angular.module('HackSheffield').controller('HomeCtrl',function($scope, d3Service
 				console.log("loop passed");
 				if (meta && meta.shouldStopPolling) {
 					stopApp();
+				} else if (meta && meta.requestType === 'KITTENS') {
+					if ($scope.showKittens !== true) {
+						$scope.logItems.push('showed some kittens');
+					}
+					displayKittens();
+					startLoop();
+				} else if (meta && meta.colors) {
+					$scope.colors = meta.colors;
+					$scope.logItems.push('changed colors');
+					startLoop();
 				} else if (meta && meta.changesMadeSinceLastUpdate) {
 					$scope.updatingChanges = true;
 					$scope.logItems.push('Got a change from Alexa');
@@ -86,7 +100,7 @@ angular.module('HackSheffield').controller('HomeCtrl',function($scope, d3Service
 						}, 500);
 					} else {
 						BackendService.getData().then(function(data) {
-							$scope.logItems.push('Updated data');
+							$scope.showKittens = false;
 							console.log("GOT NEW DATA!!!!", data, meta);
 							switch(meta.displayElementConfig.type) {
 								case 'bar_chart':
@@ -120,6 +134,7 @@ angular.module('HackSheffield').controller('HomeCtrl',function($scope, d3Service
 							}
 
 							$timeout(function() {
+								$scope.logItems.push('Updated data');
 								$scope.updatingChanges = false;
 								startLoop();
 							}, 500);
@@ -170,9 +185,6 @@ angular.module('HackSheffield').controller('HomeCtrl',function($scope, d3Service
 			$scope.kittensReady = true;
 		}, 1000);
 	}
-
-	//displayKittens();
-
 	
 
 });

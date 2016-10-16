@@ -91,9 +91,7 @@ angular.module('HackSheffield').directive('barChart', function(d3Service,
 
             init();
 
-            scope.changeBarColor = function() {
-                d3.selectAll(".bar").transition().call(changeBarColor, "red");
-            };
+            
 
             scope.changeData = function() {
                 svg.selectAll("rect").remove();
@@ -126,11 +124,23 @@ angular.module('HackSheffield').directive('barChart', function(d3Service,
                     .attr("height", function(d) { return height - y(d.value); });
             };
 
-            function changeBarColor(transition, fill) {
+            function changeBarColor(transition, colors) {
+              var newColor = d3.scaleOrdinal(colors);
               transition
-                  .style("fill", fill)
+                  .style("fill", function(d) { return newColor(d.value); })
                   .duration(1000);
             }
+
+            var firstLoad = true;
+
+            scope.$watch('customColors', function() {
+                if (firstLoad) {
+                    firstLoad = false;
+                } else {
+                    console.log("custom colors changed ", scope.customColors);
+                    svg.selectAll(".bar").transition().call(changeBarColor, scope.customColors);
+                }
+            });
         }
     };
 });

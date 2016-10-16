@@ -10,14 +10,14 @@
 		</div>
 
 		<div ng-if="displayChart && !displayTable" layout="row" layout-align="start center" style="width: 100%; height: 100%;">
-			<bar-chart ng-if="reinit && chartType === 'bar'" is-large="true" data="currentData"></bar-chart>
-			<pie-chart ng-if="reinit && chartType === 'pie'" is-large="true" data="currentData"></pie-chart>
+			<bar-chart ng-if="reinit && chartType === 'bar'" is-large="true" data="currentData" custom-colors="colors"></bar-chart>
+			<pie-chart ng-if="reinit && chartType === 'pie'" is-large="true" data="currentData" custom-colors="colors"></pie-chart>
 		</div>
 
 		<div ng-if="displayChart && displayTable" layout="row" layout-align="start center" style="width: 100%; height: 100%;">
-			<bar-chart ng-if="reinit && chartType === 'bar'" flex="50" data="currentData" is-large="false"></bar-chart>
+			<bar-chart ng-if="reinit && chartType === 'bar'" flex="50" data="currentData" is-large="false" custom-colors="colors"></bar-chart>
 
-			<pie-chart ng-if="reinit && chartType === 'pie'" flex="50" data="currentData" is-large="false"></pie-chart>
+			<pie-chart ng-if="reinit && chartType === 'pie'" flex="50" data="currentData" is-large="false" custom-colors="colors"></pie-chart>
 
 			<dt-table data="tableData" flex="50"></dt-table>
 		</div>
@@ -65,7 +65,7 @@
 
 		<div class="box1">
 			<div class="log-title">Actions log</div>
-			<div class="log-item" ng-repeat="item in logItems track by $index | limitTo:-5 ">
+			<div class="log-item" ng-repeat="item in logItems  | logFilter track by $index ">
 				- {{item}}..
 			</div>
 

@@ -5,7 +5,8 @@ angular.module('HackSheffield').directive('pieChart', function(d3Service,
         replace: true,
         scope: {
             isLarge: '=',
-            data: '='
+            data: '=',
+            customColors: '='
         },
         templateUrl: 'libs/directive/pie-chart/pie-chart.html',
         link: function(scope, element, attrs, fn) {
@@ -81,6 +82,7 @@ angular.module('HackSheffield').directive('pieChart', function(d3Service,
                   .attr("class", "arc");
 
                 enter.append("path")
+                  .attr("class", "piepath")
                   .style("fill", function(d) { return color(d.value); })
                   .transition().duration(2000).attrTween('d', enterTween);
 
@@ -122,6 +124,7 @@ angular.module('HackSheffield').directive('pieChart', function(d3Service,
                 update.exit().remove();
 
                 update.append("path")
+                    .attr("class", "piepath")
                     .style("fill", function(d) { return color(d.value); })
                     .transition().duration(750)
                     .attrTween('d', updateArcTween);
@@ -140,6 +143,27 @@ angular.module('HackSheffield').directive('pieChart', function(d3Service,
             };
 
             init();
+
+            function changeBarColor(transition, colors) {
+              var newColor = d3.scaleOrdinal(colors);
+              transition
+                  .style("fill", function(d) { return newColor(d.value); })
+                  .duration(1000);
+            }
+
+            var firstLoad = true;
+
+            scope.$watch('customColors', function() {
+              console.log("custom colors changed ", scope.customColors);
+              if (firstLoad) {
+                firstLoad = false;
+              } else {
+                //$timeout(function() {
+                  svg.selectAll(".piepath").transition().call(changeBarColor, scope.customColors);
+                //}, 1500);
+              }
+              
+            });
             
 
         }
