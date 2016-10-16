@@ -2,6 +2,8 @@ package io.mlh.utilities;
 
 import io.mlh.objects.Metadata;
 import io.mlh.objects.capitalone.CapitalOneWithdrawal;
+import io.mlh.objects.charts.TableChartDisplayElementConfig;
+import io.mlh.types.DataSetType;
 
 import javax.el.MethodNotFoundException;
 import java.util.*;
@@ -11,6 +13,8 @@ import java.util.stream.Collectors;
 public class DisplayDataProcessUtils {
 
     private String getMethodName;
+
+    private String tempSortedBy;
 
     public DisplayDataProcessUtils(String groupingKey) {
         if (groupingKey == null) groupingKey = "type";
@@ -27,7 +31,17 @@ public class DisplayDataProcessUtils {
         Object result = data;
 
         if (metadata.getDisplayElementConfig().getType().equals("table")) {
-            return data;
+            if (((TableChartDisplayElementConfig)metadata.getDisplayElementConfig()).getSorted() != null && metadata.getRequestType().equals(DataSetType.WITHDRAWAL)) {
+
+                tempSortedBy = ((TableChartDisplayElementConfig)metadata.getDisplayElementConfig()).getSorted();
+
+                ((Collection<CapitalOneWithdrawal>)data)
+                        .stream()
+                        .sorted(this::sortFn)
+                        .collect(Collectors.toList());
+            } else {
+                return data;
+            }
         }
 
         if (metadata.getDisplayElementConfig().getGroupedBy() != null) {
@@ -82,6 +96,17 @@ public class DisplayDataProcessUtils {
             return obj.getClass().getMethod(getMethodName).invoke(obj) != null;
         } catch (Exception e) {
             throw new MethodNotFoundException(e.getCause());
+        }
+    }
+
+
+    private int sortFn(CapitalOneWithdrawal obj1, CapitalOneWithdrawal obj2) {
+        if (tempSortedBy.contains("amount")) {
+            return obj1.getAmount().compareTo(obj2.getAmount());
+        } else if (tempSortedBy.contains("data")) {
+            return obj1.getTransactionDate().compareTo(obj2.getTransactionDate());
+        } else {
+            return 0;
         }
     }
 

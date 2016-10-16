@@ -48,7 +48,7 @@ public class AlexaController {
             config = new PieChartDisplayElementConfig(groupedBy, DataSetType.valueOf(requestType));
         } else if (displayElementType.toLowerCase().contains("table")) {
             //Change to table config.
-            config = new TableChartDisplayElementConfig(groupedBy, false, DataSetType.valueOf(requestType));
+            config = new TableChartDisplayElementConfig(groupedBy, null, DataSetType.valueOf(requestType));
         } else {
             throw new IllegalArgumentException("Invalid displayElementType provided. Only pie,bar charts and table supported");
         }
@@ -145,7 +145,7 @@ public class AlexaController {
                     md.setDisplayElementConfig(new PieChartDisplayElementConfig(toCamelCase(groupBy.toLowerCase()), md.getRequestType()));
                     break;
                 case "table":
-                    md.setDisplayElementConfig(new TableChartDisplayElementConfig(toCamelCase(groupBy.toLowerCase()), false, md.getRequestType()));
+                    md.setDisplayElementConfig(new TableChartDisplayElementConfig(toCamelCase(groupBy.toLowerCase()), null, md.getRequestType()));
                     break;
                 default:
                     throw new IllegalArgumentException("Type not supported!");
@@ -158,14 +158,14 @@ public class AlexaController {
     }
 
     @RequestMapping("/sort")
-    public void sort() {
+    public void sort(@RequestParam String sortBy) {
         Metadata md = ssService.getDisplayMetadata();
 
         if (md != null) {
             DisplayElementConfig dec = md.getDisplayElementConfig();
 
             if (dec.getType().equals("table")) {
-                md.setDisplayElementConfig(new TableChartDisplayElementConfig(dec.getGroupedBy(), true, md.getRequestType()));
+                md.setDisplayElementConfig(new TableChartDisplayElementConfig(dec.getGroupedBy(), sortBy, md.getRequestType()));
             }
 
             ssService.setDisplayMetadata(md);
