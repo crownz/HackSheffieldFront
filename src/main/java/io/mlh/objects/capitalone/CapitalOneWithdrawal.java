@@ -24,6 +24,9 @@ public class CapitalOneWithdrawal {
     @JsonProperty("payer_id")
     private String payerId;
 
+    @JsonProperty("payee_id")
+    private String payeeId;
+
     @JsonProperty("status")
     private String status;
 
@@ -95,5 +98,13 @@ public class CapitalOneWithdrawal {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getPayeeId() {
+        return payeeId;
+    }
+
+    public void setPayeeId(String payeeId) {
+        this.payeeId = payeeId;
     }
 }
