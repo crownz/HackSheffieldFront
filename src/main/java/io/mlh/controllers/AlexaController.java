@@ -137,18 +137,19 @@ public class AlexaController {
 
             switch(dec.getType()) {
                 case "bar_chart":
-                    md.setDisplayElementConfig(new BarChartDisplayElementConfig(toCamelCase(groupBy), md.getRequestType()));
+                    md.setDisplayElementConfig(new BarChartDisplayElementConfig(toCamelCase(groupBy.toLowerCase()), md.getRequestType()));
                     break;
                 case "pie_chart":
-                    md.setDisplayElementConfig(new PieChartDisplayElementConfig(toCamelCase(groupBy), md.getRequestType()));
+                    md.setDisplayElementConfig(new PieChartDisplayElementConfig(toCamelCase(groupBy.toLowerCase()), md.getRequestType()));
                     break;
                 case "table":
-                    md.setDisplayElementConfig(new TableChartDisplayElementConfig(toCamelCase(groupBy), md.getRequestType()));
+                    md.setDisplayElementConfig(new TableChartDisplayElementConfig(toCamelCase(groupBy.toLowerCase()), md.getRequestType()));
                     break;
                 default:
                     throw new IllegalArgumentException("Type not supported!");
             }
 
+            System.out.println("Grouping by " + toCamelCase(groupBy.toLowerCase()));
             ssService.setDisplayMetadata(md);
         }
 
