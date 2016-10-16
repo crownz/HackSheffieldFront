@@ -30,9 +30,10 @@ public class ViewerController {
     public Metadata getMetadata() {
         Metadata md = ssService.getDisplayMetadata();
         Metadata newMd = md;
-        newMd.setChangesMadeSinceLastUpdate(false);
-
-        ssService.setDisplayMetadata(newMd);
+        if (newMd != null) {
+            newMd.setChangesMadeSinceLastUpdate(false);
+            ssService.setDisplayMetadata(newMd);
+        }
 
         return md;
     }
