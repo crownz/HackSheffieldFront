@@ -20,12 +20,20 @@ public class Metadata {
     @JsonProperty("shouldStopPolling")
     private boolean shouldStopPolling;
 
-    public Metadata(DisplayElementConfig displayElementConfig, boolean changesMade, Integer dataSize, DataSetType requestType, boolean shouldStopPolling) {
+    @JsonProperty("hideChart")
+    private Boolean hideChart;
+
+    @JsonProperty("hideTable")
+    private Boolean hideTable;
+
+    public Metadata(DisplayElementConfig displayElementConfig, boolean changesMade, Integer dataSize, DataSetType requestType, boolean shouldStopPolling, Boolean hideChart, Boolean hideTable) {
         this.displayElementConfig = displayElementConfig;
         this.changesMadeSinceLastUpdate = changesMade;
         this.dataSize = dataSize;
         this.requestType = requestType;
         this.shouldStopPolling = shouldStopPolling;
+        this.hideChart = hideChart;
+        this.hideTable = hideTable;
     }
 
     public DisplayElementConfig getDisplayElementConfig() {
@@ -66,5 +74,21 @@ public class Metadata {
 
     public void setShouldStopPolling(boolean shouldStopPolling) {
         this.shouldStopPolling = shouldStopPolling;
+    }
+
+    public boolean isHideChart() {
+        return hideChart;
+    }
+
+    public void setHideChart(boolean hideChart) {
+        this.hideChart = hideChart;
+    }
+
+    public Boolean isHideTable() {
+        return hideTable;
+    }
+
+    public void setHideTable(Boolean hideTable) {
+        this.hideTable = hideTable;
     }
 }

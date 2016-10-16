@@ -61,7 +61,26 @@ public class AlexaController {
         }
 
         ssService.setDisplayData(data);
-        ssService.setDisplayMetadata(new Metadata(config, true, data.size(), DataSetType.valueOf(requestType.toUpperCase()), false));
+        ssService.setDisplayMetadata(new Metadata(
+                config,
+                true,
+                data.size(),
+                DataSetType.valueOf(requestType.toUpperCase()),
+                false, null, null));
+    }
+
+
+    @RequestMapping("/hide")
+    public void hide(
+            @RequestParam(required = false) Boolean hideTable,
+            @RequestParam(required = false) Boolean hideChart
+    ) {
+        Metadata md = ssService.getDisplayMetadata();
+
+        if (hideTable) md.setHideTable(true);
+        if (hideChart) md.setHideChart(true);
+
+        ssService.setDisplayMetadata(md);
     }
 
     @RequestMapping("/stop")
