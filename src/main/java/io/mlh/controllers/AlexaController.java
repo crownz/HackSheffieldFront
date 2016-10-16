@@ -72,8 +72,8 @@ public class AlexaController {
 
     @RequestMapping("/hide")
     public void hide(
-            @RequestParam(required = false) Boolean hideTable,
-            @RequestParam(required = false) Boolean hideChart
+            @RequestParam(required = false) boolean hideTable,
+            @RequestParam(required = false) boolean hideChart
     ) {
         Metadata md = ssService.getDisplayMetadata();
 
