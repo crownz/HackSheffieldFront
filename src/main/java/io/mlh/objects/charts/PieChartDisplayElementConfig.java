@@ -11,7 +11,7 @@ public class PieChartDisplayElementConfig implements DisplayElementConfig {
         if (type.equals(DataSetType.ACCOUNT)) {
             this.groupedBy = groupedBy != null ? groupedBy : "type";
         } else if (type.equals(DataSetType.WITHDRAWAL)) {
-            this.groupedBy = groupedBy != null ? groupedBy : "description";
+            this.groupedBy = groupedBy != null ? groupedBy : "amount";
         } else {
             throw new IllegalArgumentException("Unsupported data set type!");
         }

@@ -4,6 +4,7 @@ import io.mlh.objects.DisplayElementConfig;
 import io.mlh.objects.Metadata;
 import io.mlh.objects.charts.BarChartDisplayElementConfig;
 import io.mlh.objects.charts.PieChartDisplayElementConfig;
+import io.mlh.objects.charts.TableChartDisplayElementConfig;
 import io.mlh.services.CapitalOneService;
 import io.mlh.services.SystemStateService;
 import io.mlh.types.DataSetType;
@@ -44,7 +45,7 @@ public class AlexaController {
             config = new PieChartDisplayElementConfig(groupedBy, DataSetType.valueOf(requestType));
         } else if (displayElementType.toLowerCase().contains("table")) {
             //Change to table config.
-            config = new PieChartDisplayElementConfig(groupedBy, DataSetType.valueOf(requestType));
+            config = new TableChartDisplayElementConfig(groupedBy, DataSetType.valueOf(requestType));
         } else {
             throw new IllegalArgumentException("Invalid displayElementType provided. Only pie,bar charts and table supported");
         }
