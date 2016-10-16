@@ -39,12 +39,12 @@ public class AlexaController {
         DisplayElementConfig config;
 
         if(displayElementType.toLowerCase().contains("bar")) {
-            config = new BarChartDisplayElementConfig(groupedBy);
+            config = new BarChartDisplayElementConfig(groupedBy, DataSetType.valueOf(requestType));
         } else if (displayElementType.toLowerCase().contains("pie")) {
-            config = new PieChartDisplayElementConfig(groupedBy);
+            config = new PieChartDisplayElementConfig(groupedBy, DataSetType.valueOf(requestType));
         } else if (displayElementType.toLowerCase().contains("table")) {
             //Change to table config.
-            config = new PieChartDisplayElementConfig(groupedBy);
+            config = new PieChartDisplayElementConfig(groupedBy, DataSetType.valueOf(requestType));
         } else {
             throw new IllegalArgumentException("Invalid displayElementType provided. Only pie,bar charts and table supported");
         }
