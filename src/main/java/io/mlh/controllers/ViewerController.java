@@ -29,9 +29,15 @@ public class ViewerController {
     @RequestMapping("/metadata")
     public Metadata getMetadata() {
         Metadata md = ssService.getDisplayMetadata();
-        Metadata newMd = md;
-        if (newMd != null) {
-            newMd.setChangesMadeSinceLastUpdate(false);
+        
+        if (md != null) {
+            Metadata newMd = new Metadata(
+                    md.getDisplayElementConfig(),
+                    false,
+                    md.getDataSize(),
+                    md.getRequestType(),
+                    md.shouldStopPolling()
+            );
             ssService.setDisplayMetadata(newMd);
         }
 
