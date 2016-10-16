@@ -38,6 +38,7 @@ public class ViewerController {
                     md.getRequestType(),
                     md.shouldStopPolling(),
                     null
+                    
             );
 
             if (newMd.shouldStopPolling()) newMd.setShouldStopPolling(false);
