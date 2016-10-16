@@ -50,14 +50,22 @@ public class DisplayDataProcessUtils {
         return (Map<String, List>)dataSet
                 .stream()
                 .filter(this::filterNulls)
-                .filter(this::filterLists)
                 .collect(Collectors.groupingBy(this::groupingFn));
     }
 
     private Map<String, Integer> sumMap(Map<String, Collection> dataSet) {
         Map<String, Integer> result = new HashMap<>();
 
-        dataSet.forEach((String k, Collection v) -> result.put(k, v.size()));
+        dataSet.forEach((Object k, Collection v) -> {
+
+            if (k.getClass() == ArrayList.class) {
+                StringBuilder newDescription = new StringBuilder();
+                ((ArrayList)k).forEach(newDescription::append);
+                result.put(newDescription.toString(), v.size());
+            } else {
+                result.put((String) k, v.size());
+            }
+        });
 
         return result;
     }
@@ -73,14 +81,6 @@ public class DisplayDataProcessUtils {
         });
 
         return result;
-    }
-
-    private boolean filterLists (Object obj) {
-        try {
-            return obj.getClass().getMethod(getMethodName).invoke(obj).getClass() != ArrayList.class;
-        } catch (Exception e) {
-            throw new MethodNotFoundException(e.getCause());
-        }
     }
 
     private boolean filterNulls (Object obj) {
