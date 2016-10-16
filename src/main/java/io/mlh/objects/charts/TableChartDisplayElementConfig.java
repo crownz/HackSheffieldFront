@@ -6,8 +6,10 @@ import io.mlh.types.DataSetType;
 public class TableChartDisplayElementConfig implements DisplayElementConfig {
 
     private final String groupedBy;
+    private final boolean sorted;
 
-    public TableChartDisplayElementConfig(String groupedBy, DataSetType type) {
+    public TableChartDisplayElementConfig(String groupedBy, boolean sorted, DataSetType type) {
+        this.sorted = sorted;
         if (type.equals(DataSetType.ACCOUNT)) {
             this.groupedBy = groupedBy != null ? groupedBy : "type";
         } else if (type.equals(DataSetType.WITHDRAWAL)) {
@@ -32,4 +34,7 @@ public class TableChartDisplayElementConfig implements DisplayElementConfig {
         return true;
     }
 
+    public boolean getSorted() {
+        return this.sorted;
+    }
 }
