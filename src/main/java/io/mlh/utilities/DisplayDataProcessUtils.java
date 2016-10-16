@@ -101,7 +101,7 @@ public class DisplayDataProcessUtils {
 
 
     private int sortFn(CapitalOneWithdrawal obj1, CapitalOneWithdrawal obj2) {
-        if (tempSortedBy.contains("amount")) {
+        if (tempSortedBy.contains("amount") || tempSortedBy.contains("ammount")) {
             return obj1.getAmount().compareTo(obj2.getAmount());
         } else if (tempSortedBy.contains("data")) {
             return obj1.getTransactionDate().compareTo(obj2.getTransactionDate());
