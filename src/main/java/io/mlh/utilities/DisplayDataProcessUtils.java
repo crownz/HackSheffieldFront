@@ -105,9 +105,9 @@ public class DisplayDataProcessUtils {
         if (tempSortedBy == null) return 0;
 
         if (tempSortedBy.contains("amount") || tempSortedBy.contains("ammount")) {
-            return obj1.getAmount().compareTo(obj2.getAmount());
+            return obj2.getAmount().compareTo(obj1.getAmount());
         } else if (tempSortedBy.contains("data")) {
-            return obj1.getTransactionDate().compareTo(obj2.getTransactionDate());
+            return obj2.getTransactionDate().compareTo(obj1.getTransactionDate());
         } else {
             return 0;
         }
