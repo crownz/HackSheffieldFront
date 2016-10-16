@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import static io.mlh.utilities.WordUtils.toCamelCase;
 
 @RestController
 @RequestMapping("/alexa")
@@ -45,7 +48,7 @@ public class AlexaController {
             config = new PieChartDisplayElementConfig(groupedBy, DataSetType.valueOf(requestType));
         } else if (displayElementType.toLowerCase().contains("table")) {
             //Change to table config.
-            config = new TableChartDisplayElementConfig(groupedBy, DataSetType.valueOf(requestType));
+            config = new TableChartDisplayElementConfig(groupedBy, null, DataSetType.valueOf(requestType));
         } else {
             throw new IllegalArgumentException("Invalid displayElementType provided. Only pie,bar charts and table supported");
         }
@@ -66,9 +69,30 @@ public class AlexaController {
                 true,
                 data.size(),
                 DataSetType.valueOf(requestType.toUpperCase()),
-                false));
+                false, null));
     }
 
+    @RequestMapping("/colors")
+    public void colors(
+            @RequestParam String color1,
+            @RequestParam String color2,
+            @RequestParam(required = false) String color3
+    ) {
+        List<String> ls = new ArrayList<>();
+
+        ls.add(color1);
+        ls.add(color2);
+        if (color3 != null) ls.add(color3);
+
+        System.out.println(color1);
+        Metadata md = ssService.getDisplayMetadata();
+
+        if (md != null) {
+            System.out.println("setting");
+            md.setColors(ls);
+            ssService.setDisplayMetadata(md);
+        }
+    }
 
     @RequestMapping("/hide")
     public void hide(
@@ -88,8 +112,65 @@ public class AlexaController {
     @RequestMapping("/stop")
     public void stop() {
         Metadata md = ssService.getDisplayMetadata();
-        md.setShouldStopPolling(true);
-        ssService.setDisplayMetadata(md);
+        if (md != null) {
+            ssService.setSessionStarted(false);
+            md.setShouldStopPolling(true);
+            md.setChangesMadeSinceLastUpdate(true);
+            ssService.setDisplayMetadata(md);
+        }
+    }
+
+    @RequestMapping("/kittens")
+    public void startKittens() {
+        Metadata md = ssService.getDisplayMetadata();
+        if (md != null) {
+            md.setChangesMadeSinceLastUpdate(true);
+            md.setRequestType(DataSetType.KITTENS);
+            ssService.setDisplayMetadata(md);
+        }
+    }
+
+    @RequestMapping("/groupBy")
+    public void groupBy(@RequestParam String groupBy) {
+        Metadata md = ssService.getDisplayMetadata();
+
+        if (md != null) {
+            DisplayElementConfig dec = md.getDisplayElementConfig();
+
+            switch(dec.getType()) {
+                case "bar_chart":
+                    md.setDisplayElementConfig(new BarChartDisplayElementConfig(toCamelCase(groupBy.toLowerCase()), md.getRequestType()));
+                    break;
+                case "pie_chart":
+                    md.setDisplayElementConfig(new PieChartDisplayElementConfig(toCamelCase(groupBy.toLowerCase()), md.getRequestType()));
+                    break;
+                case "table":
+                    md.setDisplayElementConfig(new TableChartDisplayElementConfig(toCamelCase(groupBy.toLowerCase()), null, md.getRequestType()));
+                    break;
+                default:
+                    throw new IllegalArgumentException("Type not supported!");
+            }
+
+            System.out.println("Grouping by " + toCamelCase(groupBy.toLowerCase()));
+            ssService.setDisplayMetadata(md);
+        }
+
+    }
+
+    @RequestMapping("/sort")
+    public void sort(@RequestParam String sortBy) {
+        Metadata md = ssService.getDisplayMetadata();
+
+        if (md != null) {
+            DisplayElementConfig dec = md.getDisplayElementConfig();
+
+            if (dec.getType().equals("table")) {
+                md.setDisplayElementConfig(new TableChartDisplayElementConfig(dec.getGroupedBy(), sortBy, md.getRequestType()));
+                md.setChangesMadeSinceLastUpdate(true);
+            }
+
+            ssService.setDisplayMetadata(md);
+        }
     }
 
     @RequestMapping("/reset")

@@ -3,6 +3,8 @@ package io.mlh.objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.mlh.types.DataSetType;
 
+import java.util.List;
+
 public class Metadata {
 
     @JsonProperty("changesMadeSinceLastUpdate")
@@ -26,7 +28,10 @@ public class Metadata {
     @JsonProperty("hideTable")
     private boolean hideTable;
 
-    public Metadata(DisplayElementConfig displayElementConfig, boolean changesMade, Integer dataSize, DataSetType requestType, boolean shouldStopPolling) {
+    @JsonProperty("colors")
+    private List<String> colors;
+
+    public Metadata(DisplayElementConfig displayElementConfig, boolean changesMade, Integer dataSize, DataSetType requestType, boolean shouldStopPolling, List<String> colors) {
         this.displayElementConfig = displayElementConfig;
         this.changesMadeSinceLastUpdate = changesMade;
         this.dataSize = dataSize;
@@ -34,6 +39,7 @@ public class Metadata {
         this.shouldStopPolling = shouldStopPolling;
         this.hideChart = false;
         this.hideTable = false;
+        this.colors = colors;
     }
 
     public DisplayElementConfig getDisplayElementConfig() {
@@ -90,5 +96,13 @@ public class Metadata {
 
     public void setHideTable(boolean hideTable) {
         this.hideTable = hideTable;
+    }
+
+    public List<String> getColors() {
+        return colors;
+    }
+
+    public void setColors(List<String> colors) {
+        this.colors = colors;
     }
 }

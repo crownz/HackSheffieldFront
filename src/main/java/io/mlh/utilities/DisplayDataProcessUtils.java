@@ -2,6 +2,8 @@ package io.mlh.utilities;
 
 import io.mlh.objects.Metadata;
 import io.mlh.objects.capitalone.CapitalOneWithdrawal;
+import io.mlh.objects.charts.TableChartDisplayElementConfig;
+import io.mlh.types.DataSetType;
 
 import javax.el.MethodNotFoundException;
 import java.util.*;
@@ -11,6 +13,8 @@ import java.util.stream.Collectors;
 public class DisplayDataProcessUtils {
 
     private String getMethodName;
+
+    private String tempSortedBy;
 
     public DisplayDataProcessUtils(String groupingKey) {
         if (groupingKey == null) groupingKey = "type";
@@ -25,6 +29,21 @@ public class DisplayDataProcessUtils {
 
     private Object processChart(Object data, Metadata metadata) {
         Object result = data;
+
+        if (metadata.getDisplayElementConfig().getType().equals("table")) {
+            if (metadata.getRequestType().equals(DataSetType.WITHDRAWAL)) {
+                System.out.println("sorting data");
+
+                tempSortedBy = ((TableChartDisplayElementConfig)metadata.getDisplayElementConfig()).getSorted();
+
+                return ((List<CapitalOneWithdrawal>)data)
+                        .stream()
+                        .sorted(this::sortFn)
+                        .collect(Collectors.toList());
+            } else {
+                return data;
+            }
+        }
 
         if (metadata.getDisplayElementConfig().getGroupedBy() != null) {
             result = groupBy((Collection) result);
@@ -78,6 +97,19 @@ public class DisplayDataProcessUtils {
             return obj.getClass().getMethod(getMethodName).invoke(obj) != null;
         } catch (Exception e) {
             throw new MethodNotFoundException(e.getCause());
+        }
+    }
+
+
+    private int sortFn(CapitalOneWithdrawal obj1, CapitalOneWithdrawal obj2) {
+        if (tempSortedBy == null) return 0;
+
+        if (tempSortedBy.contains("amount") || tempSortedBy.contains("ammount")) {
+            return obj2.getAmount().compareTo(obj1.getAmount());
+        } else if (tempSortedBy.contains("data")) {
+            return obj2.getTransactionDate().compareTo(obj1.getTransactionDate());
+        } else {
+            return 0;
         }
     }
 
