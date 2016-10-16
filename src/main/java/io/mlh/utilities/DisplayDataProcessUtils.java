@@ -36,7 +36,7 @@ public class DisplayDataProcessUtils {
 
     private Object processPieOrBarChart(Object data, Metadata metadata) {
         Object result = data;
-        
+
         if (metadata.getDisplayElementConfig().getGroupedBy() != null) {
             result = groupBy((Collection) result);
         }
@@ -50,6 +50,7 @@ public class DisplayDataProcessUtils {
         return (Map<String, List>)dataSet
                 .stream()
                 .filter(this::filterNulls)
+                .filter(this::filterLists)
                 .collect(Collectors.groupingBy(this::groupingFn));
     }
 
@@ -72,6 +73,14 @@ public class DisplayDataProcessUtils {
         });
 
         return result;
+    }
+
+    private boolean filterLists (Object obj) {
+        try {
+            return obj.getClass().getMethod(getMethodName).invoke(obj).getClass() != ArrayList.class;
+        } catch (Exception e) {
+            throw new MethodNotFoundException(e.getCause());
+        }
     }
 
     private boolean filterNulls (Object obj) {
