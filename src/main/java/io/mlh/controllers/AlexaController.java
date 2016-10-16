@@ -123,6 +123,7 @@ public class AlexaController {
     public void startKittens() {
         Metadata md = ssService.getDisplayMetadata();
         if (md != null) {
+            md.setChangesMadeSinceLastUpdate(true);
             md.setRequestType(DataSetType.KITTENS);
             ssService.setDisplayMetadata(md);
         }
