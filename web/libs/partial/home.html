@@ -1,8 +1,76 @@
 <div class="home-container" layout="row" layout-align="center center">
-	<div flex></div>
-	<div class="content-container">
 
+	<div flex="70" flex-offset="5" class="content-container">
+
+		<div class="start-container" ng-if="!started" layout="row" layout-align="start center" style="width: 100%; height: 100%;" ng-class="{ 'app-started' : starting }">
+			<md-icon class="bg-icon">insert_chart</md-icon>
+			<div class="welcome-text">
+			say open dashboards to start
+			</div>
+		</div>
+
+		<div ng-if="displayChart && !displayTable" layout="row" layout-align="start center" style="width: 100%; height: 100%;">
+			<bar-chart ng-if="reinit && chartType === 'bar'" is-large="true" data="currentData"></bar-chart>
+			<pie-chart ng-if="reinit && chartType === 'pie'" is-large="true" data="currentData"></pie-chart>
+		</div>
+
+		<div ng-if="displayChart && displayTable" layout="row" layout-align="start center" style="width: 100%; height: 100%;">
+			<bar-chart ng-if="reinit && chartType === 'bar'" flex="50" data="currentData" is-large="false"></bar-chart>
+
+			<pie-chart ng-if="reinit && chartType === 'pie'" flex="50" data="currentData" is-large="false"></pie-chart>
+
+			<dt-table data="tableData" flex="50"></dt-table>
+		</div>
+
+		<div ng-if="!displayChart && displayTable" layout="row" layout-align="start center" style="width: 100%; height: 100%;">
+			<dt-table data="tableData"></dt-table>
+		</div>
+
+		<img class="kitten-image" src="resources/cat1.jpg" ng-if="showKittens" ng-class="{'show' : kittensReady}">
 	</div>
-	<div flex></div>
+
+	<div flex class="boxes-container" layout="column">
+		<div class="box2" layout="column">
+			<md-icon ng-if="!started" class="waiting-alexa-icon">av_timer</md-icon>
+
+			<div ng-if="!started" class="waiting-alexa-text" layout="row">waiting for Alexa to start<div ng-show="dots === 1">.</div><div ng-show="dots === 2">..</div><div ng-show="dots === 3">...</div></div>
+
+
+			<div class="loader-container" layout="column" flex>
+				<md-progress-circular md-mode="indeterminate" ng-if="started" class="loader"></md-progress-circular>
+			</div>
+			
+
+			<div ng-if="updatingChanges" layout="row" class="waiting-alexa-text"><div flex></div>updating changes<div ng-if="dots === 1">.</div><div ng-if="dots === 2">..</div><div ng-if="dots === 3">...</div><div flex></div></div>
+
+			<div ng-if="!updatingChanges && started" layout="row" class="waiting-alexa-text"><div flex></div>waiting for changes<div ng-show="dots === 1">.</div><div ng-show="dots === 2">..</div><div ng-show="dots === 3">...</div><div flex></div></div>
+
+			<img class="kitten-image" src="resources/cat2.jpg" ng-if="showKittens" ng-class="{'show' : kittensReady}">
+		</div>
+
+		
+		
+		<div class="box3" layout="column">
+			<div layout="row" flex="50">
+				<img class="random-logo nessie"  src="resources/capital.png">
+			</div>
+
+			<div layout="row"  flex="50">
+				<img class="random-logo nessie"  src="resources/nessie.png">
+				<img class="random-logo" src="resources/Alexa.png">
+			</div>
+
+			<img class="kitten-image" src="resources/cat3.jpg" ng-if="showKittens" ng-class="{'show' : kittensReady}">
+		</div>
+
+		<div class="box1">
+			<div class="log-title">Actions log</div>
+			<div class="log-item" ng-repeat="item in logItems track by $index | limitTo:-5 ">
+				- {{item}}..
+			</div>
+
+			<img class="kitten-image" src="resources/cat4.jpg" ng-if="showKittens" ng-class="{'show' : kittensReady}">
+		</div>
+	</div>
 
 </div>
