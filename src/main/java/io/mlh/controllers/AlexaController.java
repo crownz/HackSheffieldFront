@@ -114,7 +114,6 @@ public class AlexaController {
             md.setShouldStopPolling(true);
             md.setChangesMadeSinceLastUpdate(true);
             ssService.setDisplayMetadata(md);
-            reset();
         }
 
     }
