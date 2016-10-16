@@ -3,31 +3,53 @@
 
 	<div flex="70" flex-offset="5" class="content-container">
 
-		<div class="start-container" ng-if="notStarted" layout="row" layout-align="start center" style="width: 100%; height: 100%;" ng-class="{ 'app-started' : starting }">
-			<md-icon class="bg-icon">insert_chart</md-icon>
-			<div class="welcome-text" >
-			Say Hello Alexa to show data
+		<!-- <div class="start-container" ng-if="!started || !currentData" layout="row" layout-align="start center" style="width: 100%; height: 100%;" >
+			<md-icon class="bg-icon" ng-class="{ 'app-started' : starting }">insert_chart</md-icon>
+			<div class="welcome-text" ng-if="!started" ng-class="{ 'app-started' : starting }">
+			say hello Alexa to show data
 			</div>
-		</div>
+		</div> -->
 
 		<div ng-if="displayChart && !displayTable" layout="row" layout-align="start center" style="width: 100%; height: 100%;">
-			<bar-chart is-large="true" ng-if="chartType === 'bar'"></bar-chart>
-			<pie-chart is-large="true" ng-if="chartType === 'pie'"></pie-chart>
+			<bar-chart is-large="true" data="currentData" ng-if="chartType === 'bar'"></bar-chart>
+			<pie-chart is-large="true" data="currentData" ng-if="chartType === 'pie'"></pie-chart>
 		</div>
 
 		<div ng-if="displayChart && displayTable" layout="row" layout-align="start center" style="width: 100%; height: 100%;">
-			<bar-chart flex="50" is-large="false" ng-if="chartType === 'bar'"></bar-chart>
+			<bar-chart flex="50" data="currentData" is-large="false" ng-if="chartType === 'bar'"></bar-chart>
 
-			<pie-chart flex="50" is-large="false" ng-if="chartType === 'pie'"></pie-chart>
+			<pie-chart flex="50" data="currentData" is-large="false" ng-if="chartType === 'pie'"></pie-chart>
 		</div>
 
 		<div ng-if="!displayChart && displayTable" layout="row" layout-align="start center" style="width: 100%; height: 100%;">
-
-		</div>
+			<dt-table data="currentData"></dt-table>
+		</div>	
 	</div>
+
 	<div flex class="boxes-container" layout="column">
-		<div class="box1"></div>
-		<div class="box2"></div>
+		<div class="box2" layout="column">
+			<md-icon ng-if="!started" class="waiting-alexa-icon">av_timer</md-icon>
+
+			<div ng-if="!started" class="waiting-alexa-text" layout="row">waiting for Alexa to start<div ng-show="dots === 1">.</div><div ng-show="dots === 2">..</div><div ng-show="dots === 3">...</div></div>
+
+
+			<div class="loader-container" layout="column" flex>
+				<md-progress-circular md-mode="indeterminate" ng-if="started" class="loader"></md-progress-circular>
+			</div>
+			
+
+			<div ng-if="updatingChanges" layout="row" class="waiting-alexa-text">updating changes<div ng-if="dots === 1">.</div><div ng-if="dots === 2">..</div><div ng-if="dots === 3">...</div></div>
+
+			<div ng-if="!updatingChanges && started" layout="row" class="waiting-alexa-text">waiting for changes<div ng-show="dots === 1">.</div><div ng-show="dots === 2">..</div><div ng-show="dots === 3">...</div></div>
+		</div>
+
+		<div class="box1">
+			<div class="log-title">Actions log</div>
+			<div class="log-item" ng-repeat="item in logItems">
+				{{item}}
+			</div>
+		</div>
+		
 		<div class="box3"></div>
 	</div>
 

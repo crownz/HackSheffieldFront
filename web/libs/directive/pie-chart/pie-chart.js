@@ -4,7 +4,8 @@ angular.module('HackSheffield').directive('pieChart', function(d3Service,
         restrict: 'E',
         replace: true,
         scope: {
-            isLarge: '='
+            isLarge: '=',
+            data: '='
         },
         templateUrl: 'libs/directive/pie-chart/pie-chart.html',
         link: function(scope, element, attrs, fn) {
@@ -27,6 +28,8 @@ angular.module('HackSheffield').directive('pieChart', function(d3Service,
             ];
 
             var width, height;
+
+
 
             if (scope.isLarge) {
                 height = $(document).height() * 0.8;
@@ -67,38 +70,34 @@ angular.module('HackSheffield').directive('pieChart', function(d3Service,
             var update, enter;
 
             function init() {
-                BackendService.getData().then(function(data) {
+                console.log("constructing pie chart with data ", scope.data);
+                update = svg.selectAll(".arc")
+                  .data(pie(scope.data));
 
-                    console.log("initing pie, have data", data, pie(data));
+                update.exit().remove();
 
-                    update = svg.selectAll(".arc")
-                      .data(pie(data));
+                enter = update.enter()
+                  .append("g")
+                  .attr("class", "arc");
 
-                    update.exit().remove();
+                enter.append("path")
+                  .style("fill", function(d) { return color(d.value); })
+                  .transition().duration(2000).attrTween('d', enterTween);
 
-                    enter = update.enter()
-                      .append("g")
-                      .attr("class", "arc");
+                enter.append("text")
+                   .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
+                   .attr("dy", ".35em")
+                   .attr("opacity", 0)
+                   .text(function(d) { return d.data.name; })
+                   .transition()
+                   .duration(1000)
+                   .attr("opacity", 1);
 
-                    enter.append("path")
-                      .style("fill", function(d) { return color(d.value); })
-                      .transition().duration(750).attrTween('d', enterTween);
-
-                    enter.append("text")
-                       .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
-                       .attr("dy", ".35em")
-                       .attr("opacity", 0)
-                       .text(function(d) { return d.data.name; })
-                       .transition()
-                       .duration(1000)
-                       .attr("opacity", 1);
-
-                    enter.exit().remove();
-                });
+                enter.exit().remove();
             }
 
             function enterTween(d) {
-                var i = d3.interpolate(0, d.endAngle);
+                var i = d3.interpolate(d.startAngle+0.1, d.endAngle);
                    return function(t) {
                        d.endAngle = i(t);
                      return arc(d);

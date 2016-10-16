@@ -4,7 +4,8 @@ angular.module('HackSheffield').directive('barChart', function(d3Service,
         restrict: 'E',
         replace: true,
         scope: {
-            isLarge: '='
+            isLarge: '=',
+            data: '='
         },
         templateUrl: 'libs/directive/bar-chart/bar-chart.html',
         link: function(scope, element, attrs, fn) {
@@ -23,7 +24,7 @@ angular.module('HackSheffield').directive('barChart', function(d3Service,
                 }
             ];
 
-            console.log("Starting d3 chart, height ", $(document).innerHeight());
+            console.log("Starting d3 chart, height ", $(document));
 
 
             var d3 = d3Service;
@@ -32,14 +33,18 @@ angular.module('HackSheffield').directive('barChart', function(d3Service,
 
             var width, height;
 
-            if (scope.isLarge) {
-                width = $(document).width() * 0.6 - margin.left - margin.right;
-                height = $(document).height() * 0.8 - margin.top - margin.bottom;
-            } else {
-                console.log("smallll");
-                width = $(document).width() * 0.35 - margin.left - margin.right;
-                height = $(document).height() * 0.4 - margin.top - margin.bottom;
-            }
+            // $timeout(function() {
+                if (scope.isLarge) {
+                    width = $(window).width() * 0.6 - margin.left - margin.right;
+                    height = $(window).height() * 0.8 - margin.top - margin.bottom;
+                } else {
+                    console.log("smallll");
+                    width = $(window).width() * 0.35 - margin.left - margin.right;
+                    height = $(window).height() * 0.4 - margin.top - margin.bottom;
+                } 
+            // });
+
+            
             
 
             var x = d3.scaleBand()
@@ -59,36 +64,31 @@ angular.module('HackSheffield').directive('barChart', function(d3Service,
             var bars;
 
             function init() {
-                BackendService.getData().then(function(data) {
+                x.domain(scope.data.map(function(d) { return d.name; }));
+                y.domain([0, d3.max(scope.data, function(d) { return d.value; })]);
 
-                    console.log("got data  from backend ", data);
+                svg.append("g")
+                  .attr("transform", "translate(0," + height + ")")
+                  .call(d3.axisBottom(x));
 
-                    x.domain(data.map(function(d) { return d.name; }));
-                    y.domain([0, d3.max(data, function(d) { return d.value; })]);
+                svg.append("g")
+                  .call(d3.axisLeft(y));
 
-                    svg.append("g")
-                      .attr("transform", "translate(0," + height + ")")
-                      .call(d3.axisBottom(x));
+                bars = svg.selectAll(".bar")
+                  .data(scope.data);
 
-                    svg.append("g")
-                      .call(d3.axisLeft(y));
-
-                    bars = svg.selectAll(".bar")
-                      .data(data);
-
-                    bars.exit().remove();
-                    
-                    bars.enter().append("rect")
-                        .attr("class", "bar")
-                        .attr("x", function(d) { return x(d.name); })
-                        .attr("width", x.bandwidth())
-                        .attr("y", function(d) { return height - 1; })
-                        .attr("height", 1)
-                        .transition()
-                        .duration(1000)
-                        .attr("y", function(d) { return y(d.value); })
-                        .attr("height", function(d) { return height - y(d.value); });
-                });
+                bars.exit().remove();
+                
+                bars.enter().append("rect")
+                    .attr("class", "bar")
+                    .attr("x", function(d) { return x(d.name); })
+                    .attr("width", x.bandwidth())
+                    .attr("y", function(d) { return height - 1; })
+                    .attr("height", 1)
+                    .transition()
+                    .duration(2000)
+                    .attr("y", function(d) { return y(d.value); })
+                    .attr("height", function(d) { return height - y(d.value); });
             }
 
             init();

@@ -14,14 +14,15 @@
 	
 	.start-container {
 		position: relative;
-		opacity: 1;
-    	transition: opacity 1s linear;
+		
 
 		.welcome-text {
 			font-size: 70px;
 			padding: 20px;
 			width: 100%;
 			text-align: center;
+			opacity: 1;
+    		transition: opacity 1s linear;
 		}
 
 		.bg-icon {
@@ -30,6 +31,8 @@
 			top: ~"calc(50% - 250px)";
 			font-size: 500px;
 			color: rgba(0, 0, 0, 0.1);
+			opacity: 1;
+    		transition: opacity 1s linear;
 		}
 
 		&.app-started {
@@ -50,9 +53,28 @@
 		.box1 {
 			height: 30%;
 			width: 100%;
-			background: #FFEB3B;
+			background: #FFD600;
 			margin-top: 20px;
 			box-shadow: 1px 1px 1px #E0E0E0;
+
+			.log-title {
+				width: 100%;
+				font-size: 22px;
+				padding: 10px;
+				//padding-top: 0;
+				text-align: center;
+				font-weight: bold;
+				color: white;
+			}
+
+			.log-item {
+				width: 100%;
+				font-size: 18px;
+				padding: 10px;
+				//padding-top: 0;
+				text-align: left;
+				color: white;
+			}
 		}
 
 		.box2 {
@@ -61,6 +83,33 @@
 			background: #FF3D00;
 			margin-top: 20px;
 			box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);
+
+			
+
+			.waiting-alexa-icon {
+				margin-top: 15px;
+				color: white;
+				//margin: 0;
+				font-size: 100px;
+				width: 100px;
+				height: 100px;
+			}
+
+			.loader-container {
+				color: white;
+				width: 100%;
+				position: relative;
+
+				.loader {
+					position: absolute;
+					left: ~"calc(50% - 35px)";
+					top: ~"calc(50% - 25px)";
+				}
+
+				.loader svg path {
+					stroke: white;
+				}
+			}
 		}
 
 		.box3 {
@@ -69,6 +118,17 @@
 			background: #64DD17;
 			margin-top: 20px;
 			box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);
+		}
+
+		.waiting-alexa-text {
+			width: 100%;
+			font-size: 18px;
+			padding: 20px;
+			padding-top: 10px;
+			//padding-top: 0;
+			text-align: center;
+			color: white;
+
 		}
 	}
 }
