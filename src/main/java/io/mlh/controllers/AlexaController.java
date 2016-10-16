@@ -82,9 +82,11 @@ public class AlexaController {
         ls.add(color2);
         if (color3 != null) ls.add(color3);
 
+        System.out.println(color1);
         Metadata md = ssService.getDisplayMetadata();
 
         if (md != null) {
+            System.out.println("setting");
             md.setColors(ls);
             ssService.setDisplayMetadata(md);
         }
