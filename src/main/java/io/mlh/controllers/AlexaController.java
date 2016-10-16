@@ -115,7 +115,15 @@ public class AlexaController {
             md.setChangesMadeSinceLastUpdate(true);
             ssService.setDisplayMetadata(md);
         }
+    }
 
+    @RequestMapping("/kittens")
+    public void startKittens() {
+        Metadata md = ssService.getDisplayMetadata();
+        if (md != null) {
+            md.setRequestType(DataSetType.KITTENS);
+            ssService.setDisplayMetadata(md);
+        }
     }
 
     @RequestMapping("/reset")
