@@ -61,6 +61,7 @@ public class DisplayDataProcessUtils {
             if (k.getClass() == ArrayList.class) {
                 StringBuilder newDescription = new StringBuilder();
                 ((ArrayList)k).forEach(newDescription::append);
+                
                 result.put(newDescription.toString(), v.size());
             } else {
                 result.put((String) k, v.size());
