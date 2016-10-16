@@ -31,7 +31,8 @@ public class DisplayDataProcessUtils {
         Object result = data;
 
         if (metadata.getDisplayElementConfig().getType().equals("table")) {
-            if (((TableChartDisplayElementConfig)metadata.getDisplayElementConfig()).getSorted() != null && metadata.getRequestType().equals(DataSetType.WITHDRAWAL)) {
+            if (metadata.getRequestType().equals(DataSetType.WITHDRAWAL)) {
+                System.out.println("sorting data");
 
                 tempSortedBy = ((TableChartDisplayElementConfig)metadata.getDisplayElementConfig()).getSorted();
 
@@ -101,6 +102,8 @@ public class DisplayDataProcessUtils {
 
 
     private int sortFn(CapitalOneWithdrawal obj1, CapitalOneWithdrawal obj2) {
+        if (tempSortedBy == null) return 0;
+
         if (tempSortedBy.contains("amount") || tempSortedBy.contains("ammount")) {
             return obj1.getAmount().compareTo(obj2.getAmount());
         } else if (tempSortedBy.contains("data")) {
