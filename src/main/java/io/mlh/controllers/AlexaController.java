@@ -110,9 +110,12 @@ public class AlexaController {
     @RequestMapping("/stop")
     public void stop() {
         Metadata md = ssService.getDisplayMetadata();
-        md.setShouldStopPolling(true);
-        ssService.setDisplayMetadata(md);
-        reset();
+        if (md != null) {
+            md.setShouldStopPolling(true);
+            ssService.setDisplayMetadata(md);
+            reset();
+        }
+
     }
 
     @RequestMapping("/reset")
