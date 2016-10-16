@@ -1,15 +1,16 @@
 package io.mlh.controllers;
 
 import io.mlh.objects.Metadata;
-import io.mlh.objects.charts.PieChartConfig;
 import io.mlh.services.CapitalOneService;
 import io.mlh.services.SystemStateService;
-import io.mlh.types.DataSetType;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -23,13 +24,24 @@ public class ViewerController {
     public ViewerController(CapitalOneService coService, SystemStateService ssService) {
         logger.debug("Initializing " + this.getClass() + "!");
         this.ssService = ssService;
-        ssService.setDisplayData(coService.getAllAccounts());
-        ssService.setDisplayMetadata(new Metadata(new PieChartConfig("type"), true, coService.getAllAccounts().size(), DataSetType.ACCOUNT));
     }
 
     @RequestMapping("/metadata")
     public Metadata getMetadata() {
-        return ssService.getDisplayMetadata();
+        Metadata md = ssService.getDisplayMetadata();
+        
+        if (md != null) {
+            Metadata newMd = new Metadata(
+                    md.getDisplayElementConfig(),
+                    false,
+                    md.getDataSize(),
+                    md.getRequestType(),
+                    md.shouldStopPolling()
+            );
+            ssService.setDisplayMetadata(newMd);
+        }
+
+        return md;
     }
 
     @RequestMapping("/data")
@@ -37,4 +49,10 @@ public class ViewerController {
         return ssService.getDisplayData();
     }
 
+    @RequestMapping("/session")
+    public Map hasBeenTouched() {
+        Map<String, Boolean> result = new HashMap<>();
+        result.put("hasBeenTouched", ssService.isSessionStarted());
+        return result;
+    }
 }

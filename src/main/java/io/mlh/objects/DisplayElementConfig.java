@@ -1,6 +1,6 @@
 package io.mlh.objects;
 
-public interface ChartConfig {
+public interface DisplayElementConfig {
 
     public String getType();
 

@@ -2,6 +2,7 @@ package io.mlh.types;
 
 public enum DataSetType {
 
-    ACCOUNT
+    ACCOUNT,
+    WITHDRAWAL
 
 }

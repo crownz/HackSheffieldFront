@@ -14,23 +14,34 @@ public class Metadata {
     @JsonProperty("requestType")
     private DataSetType requestType;
 
-    @JsonProperty("chartConfig")
-    private ChartConfig chartConfig;
+    @JsonProperty("displayElementConfig")
+    private DisplayElementConfig displayElementConfig;
 
+    @JsonProperty("shouldStopPolling")
+    private boolean shouldStopPolling;
 
-    public Metadata(ChartConfig chartConfig, boolean changesMade, Integer dataSize, DataSetType requestType) {
-        this.chartConfig = chartConfig;
+    @JsonProperty("hideChart")
+    private boolean hideChart;
+
+    @JsonProperty("hideTable")
+    private boolean hideTable;
+
+    public Metadata(DisplayElementConfig displayElementConfig, boolean changesMade, Integer dataSize, DataSetType requestType, boolean shouldStopPolling) {
+        this.displayElementConfig = displayElementConfig;
         this.changesMadeSinceLastUpdate = changesMade;
         this.dataSize = dataSize;
         this.requestType = requestType;
+        this.shouldStopPolling = shouldStopPolling;
+        this.hideChart = false;
+        this.hideTable = false;
     }
 
-    public ChartConfig getChartConfig() {
-        return chartConfig;
+    public DisplayElementConfig getDisplayElementConfig() {
+        return displayElementConfig;
     }
 
-    public void setChartConfig(ChartConfig chartType) {
-        this.chartConfig = chartType;
+    public void setDisplayElementConfig(DisplayElementConfig chartType) {
+        this.displayElementConfig = chartType;
     }
 
     public boolean isChangesMadeSinceLastUpdate() {
@@ -55,5 +66,29 @@ public class Metadata {
 
     public void setRequestType(DataSetType requestType) {
         this.requestType = requestType;
+    }
+
+    public boolean shouldStopPolling() {
+        return shouldStopPolling;
+    }
+
+    public void setShouldStopPolling(boolean shouldStopPolling) {
+        this.shouldStopPolling = shouldStopPolling;
+    }
+
+    public boolean isHideChart() {
+        return hideChart;
+    }
+
+    public void setHideChart(boolean hideChart) {
+        this.hideChart = hideChart;
+    }
+
+    public boolean isHideTable() {
+        return hideTable;
+    }
+
+    public void setHideTable(boolean hideTable) {
+        this.hideTable = hideTable;
     }
 }
