@@ -11,7 +11,7 @@ public class BarChartDisplayElementConfig implements DisplayElementConfig {
         if (type.equals(DataSetType.ACCOUNT)) {
             this.groupedBy = groupedBy != null ? groupedBy : "type";
         } else if (type.equals(DataSetType.WITHDRAWAL)) {
-            this.groupedBy = groupedBy != null ? groupedBy : "amount";
+            this.groupedBy = groupedBy != null ? groupedBy : "description";
         } else {
             throw new IllegalArgumentException("Unsupported data set type!");
         }
