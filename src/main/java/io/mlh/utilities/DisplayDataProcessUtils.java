@@ -26,6 +26,10 @@ public class DisplayDataProcessUtils {
     private Object processChart(Object data, Metadata metadata) {
         Object result = data;
 
+        if (metadata.getDisplayElementConfig().getType().equals("table")) {
+            return data;
+        }
+
         if (metadata.getDisplayElementConfig().getGroupedBy() != null) {
             result = groupBy((Collection) result);
         }
